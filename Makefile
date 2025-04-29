@@ -6,29 +6,42 @@
 #    By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 16:43:45 by rquilami          #+#    #+#              #
-#    Updated: 2025/04/28 16:48:32 by rquilami         ###   ########.fr        #
+#    Updated: 2025/04/29 19:26:16 by rquilami         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS			=	main.c
-OBJS			= $(SRCS:.c=.o)
 
-CC				= gcc
-CFLAGS			= -Wall -Wextra -Werror
+NAME = cub3d
+SRC = src/main.c src/screen.c
+OBJ = $(SRC:.c=.o)
 
-NAME			= cub3d
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
-all:			$(NAME)
+MLX_DIR = mlx
+MLX_LIB = $(MLX_DIR)/libmlx.a
 
-$(NAME):		$(OBJS)
-				ar rcs $(NAME) $(OBJS)
+all: $(MLX_LIB) $(NAME)
+
+
+$(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lz -o $(NAME)
+
+
+$(MLX_LIB):
+	$(MAKE) -C $(MLX_DIR)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-				rm -f $(OBJS)
+	rm -f $(OBJ)
+	$(MAKE) -C $(MLX_DIR) clean
 
-fclean:			clean
-				rm -f $(NAME)
+fclean: clean
+	rm -f $(NAME)
 
-re:				fclean $(NAME)
+re: fclean all
 
-.PHONY:			all clean fclean re
+.PHONY: all clean fclean re
+
