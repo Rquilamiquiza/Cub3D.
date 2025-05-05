@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/04/29 19:23:05 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:42:40 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,36 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <math.h>
 # include "../mlx/mlx.h"
-# define WIDTH 1300
-# define HEIGTH 1100
+# include "../get_next_line/get_next_line.h"
 
-typedef struct core_s
+# define RESET "\033[0m"
+# define RED "\033[31m"
+
+#define WIDTH 640
+#define HEIGHT 480
+#define BLOCK 32
+#define MAP_WIDTH 9
+#define MAP_HEIGHT 6
+#define PI 3.14159265
+
+
+typedef struct 	s_data
+{
+	float	initAngle;
+	int		playerx;
+	int		playery;
+	char		**map;
+}				t_data;
+
+typedef struct	s_player
+{
+	int x;
+	int y;
+}				t_player;
+
+typedef struct s_core
 {
     void		*mlx;
 	void		*win;
@@ -31,10 +56,14 @@ typedef struct core_s
 	int			sky;
 	int			floor;
 	int			color;
-}               core_t;
+	t_player	player;
+	t_data		data;
+}               t_core;
 
 
-void    print_window(core_t *core);
-
+void    print_window(t_core *core);
+void	put_pixel(t_core *core, int x, int y, int color);
+void	vision_player(t_core *core, float initAngle);
+void	draw_map(t_core *core);
 
 #endif
