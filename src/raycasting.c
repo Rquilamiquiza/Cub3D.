@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/07 16:04:32 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:09:36 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,29 +45,56 @@ void draw_map(t_core *core)
 }
 
 
-void dda(float x0, float y0, float angle, t_core *core)
-{
-    float angleRad = angle * PI / 180.0;
-    float dx = cos(angleRad);
-    float dy = sin(angleRad);
-    
-    float x = x0 + 0.5f;
-    float y = y0 + 0.5f;
-    
-    while (1)
+void dda(float angle, float fov, t_data *data)
+{   
+    int px;
+    int py;
+    int x;
+    int stepX, stepY;
+
+    px = 0;
+    py = 0;
+    x = 0;
+
+    data->planY = -data->DirY * fov;
+    data->planX =  data->DirX * fov;
+
+    px = (int)data->posX;
+    py = (int)data->posY;
+
+    while (x < data->column_map)
     {
-        int px = (int)x;
-        int py = (int)y;
-        if (px < 0 || px >= core->data.column_map || py < 0 || py >= core->data.lines_map)
-            break;
-        if (core->data.map[py][px] == '1')
-            break;
-        int screenX = (int)(x * BLOCK);
-        int screenY = (int)(y * BLOCK);
-        put_pixel(core, screenX, screenY, 0x00FF0000);
-        x += dx * 0.1f;
-        y += dy * 0.1f;
+        data->cameraX = 2.0 * x / data->column_map - 1.0;
+        data->raydirY = data->DirY + data->planY * data->cameraX;
+        data->raydirX = data->DirX + data->planX * data->cameraX;
+        x++;
+
     }
+    data->deltaDistX = abs(1/data->raydirX);
+    data->deltaDistY = abs(1/data->raydirY);
+    if (data->raydirX < 0)
+    {
+        stepX = -1;
+        data->sideDistX = (data->posX - px) * data->deltaDistX;
+    }
+    else
+    {
+        stepX = 1;
+        data->sideDistX = (px + 1.0 - data->posX) * data->deltaDistX;
+    }
+
+    if (data->raydirY < 0)
+    {
+        stepY = -1;
+        data->sideDistY = (data->posY - py) * data->deltaDistY;
+    }
+    else
+    {
+        stepY = 1;
+        data->sideDistY = (py + 1.0 - data->posY) * data->deltaDistY;
+        py -= stepY;
+    }
+
 
 }
 
@@ -75,14 +102,20 @@ void vision_player(t_core *core, float initAngle)
 {
     int px;
     int py;
-    find_player(&px, &py, &core->data);
+    float fov;
     float angle;
+    float step;
+    
+    find_player(&px, &py, &core->data);
+    fov = 60.0f;
+    step = 0.1f;
+    angle = initAngle - (fov / 2.0f);
 
-    angle = initAngle - 30;
-    while (angle <= initAngle + 30) 
+    while (angle <= initAngle + (fov / 2.0f)) 
     {
         dda(px, py, angle, core);
-        angle += 0.1f;
+        angle += step;
     }
 }
+
 

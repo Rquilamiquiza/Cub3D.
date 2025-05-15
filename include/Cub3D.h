@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/07 13:42:43 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:53:48 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,26 @@ typedef struct 	s_data
 {
 	float	initAngle;
 	int		playerx;
+	int		playery;
 	int		lines_map;
 	int		column_map;
-	int		playery;
-	int		pos[2];
+	float	raydirX;
+	float	raydirY;
+	float	sideDistX;
+	float	sideDistY;
+	float	deltaDistX;
+	float	deltaDistY;
+	float	cameraX;
+	float	cameraY;
+	int		DirX;
+	int		DirY;
+	float   posX;
+	float 	posY;
+	float	planX;
+	float	planY;
+	float	fov;
+	
+	int		wall_height;
 	char		**map;
 }				t_data;
 
@@ -66,12 +82,12 @@ typedef struct s_core
 
 
 void    print_window(t_core *core);
-void	put_pixel(t_core *core, int x, int y, int color);
+//void	put_pixel(t_core *core, int x, int y, int color);
 void	vision_player(t_core *core, float initAngle);
 void	draw_map(t_core *core);
 void	ft_readmap(char *file, t_data *data);
 void	free_mtx(char **map);
-int 	find_player(int *px, int *py, t_data *data);
+void 	find_player(t_data *data);
 int 	close_window(t_core *core);
 int		keyCall(int key, t_core *core);
 

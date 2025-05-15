@@ -6,11 +6,60 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:31:22 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/07 12:28:47 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:23:07 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Cub3D.h"
+
+void	ft_getAngle(t_data *data, char c)
+{
+	if (c == 'N')
+	{
+		data->initAngle = 270.0f;
+		data->DirX = cos(270.0f * PI/180);
+		data->DirY = sin(270.0f * PI/180);
+	}
+	if (c == 'S')
+	{
+		data->initAngle = 90.0f;
+		data->DirX = cos(90.0f * PI/180);
+		data->DirY = sin(90.0f * PI/180);
+	}
+	if (c == 'W')
+	{	
+		data->initAngle = 180.0f;
+		data->DirX = cos(180.0f * PI/180);
+		data->DirY = sin(180.0f * PI/180);
+	}
+	if (c == 'E')
+	{
+		data->initAngle = 0.0f;
+		data->DirX = cos(0.0f * PI/180);
+		data->DirY = sin(0.0f * PI/180);
+	}
+}
+
+void find_player(t_data *data)
+{
+    int y = 0;
+    int x = 0;
+    while (y < data->column_map)
+    {
+        x = 0;
+        while (x < data->lines_map)
+        {
+            if (data->map[y][x] == 'N' || data->map[y][x] == 'E' || data->map[y][x] == 'W' || data->map[y][x] == 'S')
+            {
+                data->posX = x + 0.5f;
+                data->posY = y + 0.5f;
+				ft_getAngle(data, data->map[y][x]);
+            }
+            x++;
+        }
+        y++;
+    }
+}
 
 void	getLines_and_Column(char *file, t_data *data)
 {
@@ -56,40 +105,5 @@ void	ft_readmap(char *file, t_data *data)
 		data->map[i] = get_next_line(fd);
 	}
 	close(fd);
-	printf("Mapa lido com sucesso, column: %i, lines: %i", data->column_map, data->lines_map);
-}
-
-int find_player(int *px, int *py, t_data *data)
-{
-    int y = 0;
-    int x = 0;
-    while (y < data->column_map)
-    {
-        x = 0;
-        while (x < data->lines_map)
-        {
-            if (data->map[y][x] == 'N' || data->map[y][x] == 'E' || data->map[y][x] == 'W' || data->map[y][x] == 'S')
-            {
-                *px = x;
-                *py = y;
-                return 1;
-            }
-            x++;
-        }
-        y++;
-    }
-    return 0;
-}
-
-int	ft_getAngle(char c)
-{
-	if (c == 'N')
-		return (270);
-	if (c == 'S')
-		return (90);
-	if (c == 'W')
-		return (180);
-	if (c == 'E')
-		return (0);
-	return (0);
+	find_player(data);
 }
