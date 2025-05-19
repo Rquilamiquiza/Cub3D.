@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:14:44 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/13 08:51:44 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:38:41 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,7 @@ void    print_window(t_core *core)
 
     x = 0;
     y = 0;
-
-     int start = (HEIGHT / 2) - (core->data.wall_height / 2);
-    int end = (HEIGHT / 2) + (core->data.wall_height / 2);
+    
     core->sky = 0x87CEEB;
     core->floor = 0x228B22;
     while (y < HEIGHT)

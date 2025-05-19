@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/15 14:09:36 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:37:20 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,78 +44,145 @@ void draw_map(t_core *core)
     }
 }
 
+void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd, int side)
+{
+    int y = drawStart;
+    int color;
 
-void dda(float angle, float fov, t_data *data)
-{   
-    int px;
-    int py;
-    int x;
-    int stepX, stepY;
+    if (side == 1)
+        color = 0xAAAAAA; // parede Y (horizontal), mais escura
+    else
+        color = 0xFFFFFF; // parede X (vertical), mais clara
 
-    px = 0;
-    py = 0;
-    x = 0;
-
-    data->planY = -data->DirY * fov;
-    data->planX =  data->DirX * fov;
-
-    px = (int)data->posX;
-    py = (int)data->posY;
-
-    while (x < data->column_map)
+    while (y < drawEnd)
     {
-        data->cameraX = 2.0 * x / data->column_map - 1.0;
-        data->raydirY = data->DirY + data->planY * data->cameraX;
-        data->raydirX = data->DirX + data->planX * data->cameraX;
-        x++;
-
+        mlx_pixel_put(core->mlx, core->win, x, y, color);
+        y++;
     }
-    data->deltaDistX = abs(1/data->raydirX);
-    data->deltaDistY = abs(1/data->raydirY);
+}
+
+// Calcula deltaDist para eixo X e Y
+void deltaDist(t_data *data)
+{
+    if (data->raydirX == 0)
+        data->deltaDistX = 1e30;
+    else
+        data->deltaDistX = fabs(1.0 / data->raydirX);
+
+    if (data->raydirY == 0)
+        data->deltaDistY = 1e30;
+    else
+        data->deltaDistY = fabs(1.0 / data->raydirY);
+}
+
+// Calcula step (direção) e sideDist (distância inicial até primeira borda de tile)
+void sideDist(t_data *data)
+{
     if (data->raydirX < 0)
     {
-        stepX = -1;
-        data->sideDistX = (data->posX - px) * data->deltaDistX;
+        data->stepX = -1;
+        data->sideDistX = (data->posX - data->tileX) * data->deltaDistX;
     }
     else
     {
-        stepX = 1;
-        data->sideDistX = (px + 1.0 - data->posX) * data->deltaDistX;
+        data->stepX = 1;
+        data->sideDistX = (data->tileX + 1.0 - data->posX) * data->deltaDistX;
     }
 
     if (data->raydirY < 0)
     {
-        stepY = -1;
-        data->sideDistY = (data->posY - py) * data->deltaDistY;
+        data->stepY = -1;
+        data->sideDistY = (data->posY - data->tileY) * data->deltaDistY;
     }
     else
     {
-        stepY = 1;
-        data->sideDistY = (py + 1.0 - data->posY) * data->deltaDistY;
-        py -= stepY;
+        data->stepY = 1;
+        data->sideDistY = (data->tileY + 1.0 - data->posY) * data->deltaDistY;
     }
-
-
 }
 
-void vision_player(t_core *core, float initAngle)
+// Prepara os dados de cada raio antes de usar o DDA
+void measure(t_data *data, int x)
 {
-    int px;
-    int py;
-    float fov;
-    float angle;
-    float step;
-    
-    find_player(&px, &py, &core->data);
-    fov = 60.0f;
-    step = 0.1f;
-    angle = initAngle - (fov / 2.0f);
+    data->cameraX = 2.0 * x / (float)data->column_map - 1.0;
+    data->raydirX = data->DirX + data->planX * data->cameraX;
+    data->raydirY = data->DirY + data->planY * data->cameraX;
 
-    while (angle <= initAngle + (fov / 2.0f)) 
+    data->tileX = (int)data->posX;
+    data->tileY = (int)data->posY;
+
+    deltaDist(data);
+    sideDist(data);
+}
+
+// Calcula distância perpendicular até a parede e limites da linha vertical
+void calculate_dist(t_core *core, int x, int side)
+{
+    double WallDist;
+    int lineHeight;
+    int drawStart;
+    int drawEnd;
+
+    if (side == 0)
+        WallDist = (core->data.tileX - core->data.posX + (1 - core->data.stepX) / 2) / core->data.raydirX;
+    else
+        WallDist = (core->data.tileY - core->data.posY + (1 - core->data.stepY) / 2) / core->data.raydirY;
+    lineHeight = (int)(HEIGHT / WallDist);
+    drawStart = -lineHeight / 2 + HEIGHT / 2;
+    if (drawStart < 0)
+        drawStart = 0;
+    drawEnd = lineHeight / 2 + HEIGHT / 2;
+    if (drawEnd >= HEIGHT)
+        drawEnd = HEIGHT - 1;
+    draw_vertical_line(core, x, drawStart, drawEnd, side);
+}
+
+// Loop principal de raycasting
+void dda(float fov, t_data *data, t_core *core)
+{
+    int x = 0;
+
+    data->planX = data->DirY * fov;
+    data->planY = -data->DirX * fov;
+
+    while (x < data->column_map)
     {
-        dda(px, py, angle, core);
-        angle += step;
+        int hit = 0;
+        int side = 0;
+
+        measure(data, x); // calcula posição, direção e steps
+
+        // DDA: avança até encontrar uma parede
+        while (hit == 0)
+        {
+            if (data->sideDistX < data->sideDistY)
+            {
+                data->sideDistX += data->deltaDistX;
+                data->tileX += data->stepX;
+                side = 0;
+            }
+            else
+            {
+                data->sideDistY += data->deltaDistY;
+                data->tileY += data->stepY;
+                side = 1;
+            }
+
+            if (data->map[data->tileY][data->tileX] == '1')
+                hit = 1;
+        }
+        calculate_dist(core, x, side); // calcula distância e desenha a linha
+        x++;
     }
+}
+
+
+void raycasting(t_core *core)
+{
+    float fov;
+    
+    fov = 66.0f;
+    dda(fov, &core->data, core);
 }
 
 

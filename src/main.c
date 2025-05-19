@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/13 08:51:17 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:33:43 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     ft_readmap(argv[1], &core->data);
     print_window(core);
     draw_map(core);
-    vision_player(core, 0);
+    raycasting(core);
     mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
 
     mlx_hook(core->win, 17, 0, close_window, &core);

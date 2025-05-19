@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/15 13:53:48 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:37:43 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,12 @@
 typedef struct 	s_data
 {
 	float	initAngle;
+	int 	stepX;
+	int 	stepY;
 	int		playerx;
 	int		playery;
+	int 	tileY;
+	int		tileX;
 	int		lines_map;
 	int		column_map;
 	float	raydirX;
@@ -82,8 +86,8 @@ typedef struct s_core
 
 
 void    print_window(t_core *core);
-//void	put_pixel(t_core *core, int x, int y, int color);
-void	vision_player(t_core *core, float initAngle);
+void	put_pixel(t_core *core, int x, int y, int color);
+void 	raycasting(t_core *core);
 void	draw_map(t_core *core);
 void	ft_readmap(char *file, t_data *data);
 void	free_mtx(char **map);

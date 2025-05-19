@@ -6,13 +6,13 @@
 #    By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 16:43:45 by rquilami          #+#    #+#              #
-#    Updated: 2025/05/13 08:12:58 by rquilami         ###   ########.fr        #
+#    Updated: 2025/05/19 19:39:36 by rquilami         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = cub3d
-SRC = src/main.c
+SRC = src/main.c src/raycasting.c src/move.c src/map.c src/screen.c src/free.c
 OBJ = $(SRC:.c=.o)
 
 CC = cc
