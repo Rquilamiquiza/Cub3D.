@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/19 19:37:20 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:51:30 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void sideDist(t_data *data)
 }
 
 // Prepara os dados de cada raio antes de usar o DDA
-void measure(t_data *data, int x)
+void requirements(t_data *data, int x)
 {
     data->cameraX = 2.0 * x / (float)data->column_map - 1.0;
     data->raydirX = data->DirX + data->planX * data->cameraX;
@@ -116,7 +116,7 @@ void measure(t_data *data, int x)
 }
 
 // Calcula distância perpendicular até a parede e limites da linha vertical
-void calculate_dist(t_core *core, int x, int side)
+void draw_wall(t_core *core, int x, int side)
 {
     double WallDist;
     int lineHeight;
@@ -144,16 +144,13 @@ void dda(float fov, t_data *data, t_core *core)
 
     data->planX = data->DirY * fov;
     data->planY = -data->DirX * fov;
-
     while (x < data->column_map)
     {
-        int hit = 0;
+        int wall = 0;
         int side = 0;
 
-        measure(data, x); // calcula posição, direção e steps
-
-        // DDA: avança até encontrar uma parede
-        while (hit == 0)
+        requirements(data, x);
+        while (wall == 0)
         {
             if (data->sideDistX < data->sideDistY)
             {
@@ -167,11 +164,10 @@ void dda(float fov, t_data *data, t_core *core)
                 data->tileY += data->stepY;
                 side = 1;
             }
-
             if (data->map[data->tileY][data->tileX] == '1')
-                hit = 1;
+                wall = 1;
         }
-        calculate_dist(core, x, side); // calcula distância e desenha a linha
+        draw_wall(core, x, side); // calcula distância e desenha a linha
         x++;
     }
 }
