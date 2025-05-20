@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/19 19:51:30 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:15:00 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,28 @@ void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd, int sid
         mlx_pixel_put(core->mlx, core->win, x, y, color);
         y++;
     }
+}
+
+// Calcula distância perpendicular até a parede e limites da linha vertical
+void draw_wall(t_core *core, int x, int side)
+{
+    double WallDist;
+    int lineHeight;
+    int drawStart;
+    int drawEnd;
+
+    if (side == 0)
+        WallDist = (core->data.tileX - core->data.posX + (1 - core->data.stepX) / 2) / core->data.raydirX;
+    else
+        WallDist = (core->data.tileY - core->data.posY + (1 - core->data.stepY) / 2) / core->data.raydirY;
+    lineHeight = (int)(HEIGHT / WallDist);
+    drawStart = -lineHeight / 2 + HEIGHT / 2;
+    if (drawStart < 0)
+        drawStart = 0;
+    drawEnd = lineHeight / 2 + HEIGHT / 2;
+    if (drawEnd >= HEIGHT)
+        drawEnd = HEIGHT - 1;
+    draw_vertical_line(core, x, drawStart, drawEnd, side);
 }
 
 // Calcula deltaDist para eixo X e Y
@@ -115,29 +137,6 @@ void requirements(t_data *data, int x)
     sideDist(data);
 }
 
-// Calcula distância perpendicular até a parede e limites da linha vertical
-void draw_wall(t_core *core, int x, int side)
-{
-    double WallDist;
-    int lineHeight;
-    int drawStart;
-    int drawEnd;
-
-    if (side == 0)
-        WallDist = (core->data.tileX - core->data.posX + (1 - core->data.stepX) / 2) / core->data.raydirX;
-    else
-        WallDist = (core->data.tileY - core->data.posY + (1 - core->data.stepY) / 2) / core->data.raydirY;
-    lineHeight = (int)(HEIGHT / WallDist);
-    drawStart = -lineHeight / 2 + HEIGHT / 2;
-    if (drawStart < 0)
-        drawStart = 0;
-    drawEnd = lineHeight / 2 + HEIGHT / 2;
-    if (drawEnd >= HEIGHT)
-        drawEnd = HEIGHT - 1;
-    draw_vertical_line(core, x, drawStart, drawEnd, side);
-}
-
-// Loop principal de raycasting
 void dda(float fov, t_data *data, t_core *core)
 {
     int x = 0;
@@ -167,11 +166,10 @@ void dda(float fov, t_data *data, t_core *core)
             if (data->map[data->tileY][data->tileX] == '1')
                 wall = 1;
         }
-        draw_wall(core, x, side); // calcula distância e desenha a linha
+        draw_wall(core, x, side);
         x++;
     }
 }
-
 
 void raycasting(t_core *core)
 {

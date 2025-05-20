@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:31:22 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/15 12:23:07 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:32:15 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,15 @@ void find_player(t_data *data)
 {
     int y = 0;
     int x = 0;
-    while (y < data->column_map)
+	if (data->map == NULL)
+	{
+		printf("Ponteiro Nullo\n");
+		exit(0);
+	}
+    while (y < data->lines_map)
     {
         x = 0;
-        while (x < data->lines_map)
+        while (x < data->column_map)
         {
             if (data->map[y][x] == 'N' || data->map[y][x] == 'E' || data->map[y][x] == 'W' || data->map[y][x] == 'S')
             {
