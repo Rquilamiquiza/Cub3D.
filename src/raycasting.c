@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/20 15:15:00 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:40:53 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,17 @@ void draw_map(t_core *core)
     }
 }
 
-void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd, int side)
+
+void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd)
 {
     int y = drawStart;
     int color;
 
-    if (side == 1)
-        color = 0xAAAAAA; // parede Y (horizontal), mais escura
-    else
-        color = 0xFFFFFF; // parede X (vertical), mais clara
-
+    color = 0xFFFFFF;
+        
     while (y < drawEnd)
     {
-        mlx_pixel_put(core->mlx, core->win, x, y, color);
+        put_pixel(core, x, y, color);
         y++;
     }
 }
@@ -65,22 +63,26 @@ void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd, int sid
 void draw_wall(t_core *core, int x, int side)
 {
     double WallDist;
-    int lineHeight;
+    double lineHeight;
     int drawStart;
     int drawEnd;
+    // o valor de HEIGHT é de 900
 
+    (void)x;
     if (side == 0)
         WallDist = (core->data.tileX - core->data.posX + (1 - core->data.stepX) / 2) / core->data.raydirX;
     else
         WallDist = (core->data.tileY - core->data.posY + (1 - core->data.stepY) / 2) / core->data.raydirY;
     lineHeight = (int)(HEIGHT / WallDist);
-    drawStart = -lineHeight / 2 + HEIGHT / 2;
+    drawStart = (HEIGHT - lineHeight) / 2;
     if (drawStart < 0)
         drawStart = 0;
     drawEnd = lineHeight / 2 + HEIGHT / 2;
     if (drawEnd >= HEIGHT)
         drawEnd = HEIGHT - 1;
-    draw_vertical_line(core, x, drawStart, drawEnd, side);
+
+    
+    draw_vertical_line(core, x, drawStart, drawEnd);
 }
 
 // Calcula deltaDist para eixo X e Y
@@ -102,24 +104,24 @@ void sideDist(t_data *data)
 {
     if (data->raydirX < 0)
     {
-        data->stepX = -1;
         data->sideDistX = (data->posX - data->tileX) * data->deltaDistX;
+        data->stepX = -1;
     }
     else
     {
-        data->stepX = 1;
         data->sideDistX = (data->tileX + 1.0 - data->posX) * data->deltaDistX;
+        data->stepX = 1;
     }
 
     if (data->raydirY < 0)
     {
-        data->stepY = -1;
         data->sideDistY = (data->posY - data->tileY) * data->deltaDistY;
+        data->stepY = -1;
     }
     else
     {
-        data->stepY = 1;
         data->sideDistY = (data->tileY + 1.0 - data->posY) * data->deltaDistY;
+        data->stepY = 1;
     }
 }
 
@@ -143,7 +145,7 @@ void dda(float fov, t_data *data, t_core *core)
 
     data->planX = data->DirY * fov;
     data->planY = -data->DirX * fov;
-    while (x < data->column_map)
+    while (x < WIDTH)
     {
         int wall = 0;
         int side = 0;
@@ -175,7 +177,7 @@ void raycasting(t_core *core)
 {
     float fov;
     
-    fov = 66.0f;
+    fov = 0.0;
     dda(fov, &core->data, core);
 }
 
