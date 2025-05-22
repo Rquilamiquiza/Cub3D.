@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/22 15:38:10 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:23:06 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 
 typedef struct 	s_data
 {
-	float	initAngle;
+	double	initAngle;
 	int 	stepX;
 	int 	stepY;
 	int		playerx;
@@ -44,21 +44,21 @@ typedef struct 	s_data
 	int		tileX;
 	int		lines_map;
 	int		column_map;
-	float	raydirX;
-	float	raydirY;
-	float	sideDistX;
-	float	sideDistY;
-	float	deltaDistX;
-	float	deltaDistY;
-	float	cameraX;
-	float	cameraY;
-	float		DirX;
-	float		DirY;
-	float   posX;
-	float 	posY;
-	float	planX;
-	float	planY;
-	float	fov;
+	double	raydirX;
+	double	raydirY;
+	double	sideDistX;
+	double	sideDistY;
+	double	deltaDistX;
+	double	deltaDistY;
+	double	cameraX;
+	double	cameraY;
+	double		DirX;
+	double		DirY;
+	double   posX;
+	double 	posY;
+	double	planX;
+	double	planY;
+	double	fov;
 	
 	int		wall_height;
 	char		**map;
@@ -66,6 +66,8 @@ typedef struct 	s_data
 
 typedef struct s_move
 {
+	float newStepX;
+	float newStepY;
 	int up;
 	int down;
 	int left;
@@ -100,7 +102,7 @@ void	draw_map(t_core *core);
 void	ft_readmap(char *file, t_data *data);
 void	free_mtx(char **map);
 void 	find_player(t_data *data);
+void    moviments(t_core *core);
 int 	close_window(t_core *core);
-int		keyCall(int key, t_core *core);
 
 #endif

@@ -6,13 +6,94 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:36:05 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/22 13:59:27 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:12:49 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Cub3D.h"
 
+int	isWall(float px, float py, t_core *core)
+{
+	int	x;
+	int	y;
 
+	x = px;
+	y = py; 
+	if (core->data.map[y][x] == '1')
+        return(1);
+    return (0);
+}
+
+void	upDown(t_core *core, float dirx, float diry)
+{
+    if (core->move.up)
+    {
+        core->move.newStepX = core->data.posX + dirx * MOVE_SPEED;
+        core->move.newStepY = core->data.posY + diry * MOVE_SPEED;
+        if (!isWall(core->move.newStepX, core->move.newStepY, core))
+        {
+            core->data.posX = core->move.newStepX;
+            core->data.posY = core->move.newStepY;
+        }
+    }
+    if (core->move.down)
+    {
+        core->move.newStepX = core->data.posX - dirx * MOVE_SPEED;
+        core->move.newStepY = core->data.posY - diry * MOVE_SPEED;
+        if (!isWall(core->move.newStepX, core->move.newStepY, core))
+        {
+            core->data.posX = core->move.newStepX;
+            core->data.posY = core->move.newStepY;
+        }
+    }
+}
+
+void	leftRight(t_core *core, float dirx, float diry)
+{
+    if (core->move.left)
+    {
+        core->move.newStepX = core->data.posX - diry * MOVE_SPEED;
+        core->move.newStepY = core->data.posY + dirx * MOVE_SPEED;
+        if (!isWall(core->move.newStepX, core->move.newStepY, core))
+        {
+            core->data.posX = core->move.newStepX;
+            core->data.posY = core->move.newStepY;
+        }
+    }
+    if (core->move.right)
+    {
+        core->move.newStepX = core->data.posX + diry * MOVE_SPEED;
+        core->move.newStepY = core->data.posY - dirx * MOVE_SPEED;
+        if (!isWall(core->move.newStepX, core->move.newStepY, core))
+        {
+            core->data.posX = core->move.newStepX;
+            core->data.posY = core->move.newStepY;
+        }
+    }
+}
+
+void    moviments(t_core *core)
+{
+    float dirx;
+    float diry;
+    
+    if (core->move.rotation_l)
+    {
+        if (core->data.initAngle > 360.0)
+            core->data.initAngle = 0.0;
+        core->data.initAngle += ROT_SPEED;
+    }
+    if (core->move.rotation_r)
+    {
+        if (core->data.initAngle < 0.0)
+            core->data.initAngle = 360.0;
+        core->data.initAngle -= ROT_SPEED;
+    }
+    dirx = cos(core->data.initAngle * PI/180.0); 
+    diry = sin(core->data.initAngle * PI/180.0);
+    upDown(core, dirx, diry);
+    leftRight(core, dirx, diry); 
+}
 
 int close_window(t_core *core)
 {
@@ -25,24 +106,7 @@ int close_window(t_core *core)
     return (0);
 }
 
-void clear_image(t_core *core, int color)
-{
-    int x, y;
-    for (y = 0; y < HEIGHT; y++)
-    {
-        for (x = 0; x < WIDTH; x++)
-        {
-            put_pixel(core, x, y, color);
-        }
-    }
-}
 
-void update_screen(t_core *core)
-{
-    //clear_image(core, 0xFFFFFF);
-    print_window(core);
-    raycasting(core);
-    mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
-}
+
 
 

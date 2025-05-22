@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/22 14:10:34 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:26:37 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,6 @@ int release(int key, t_core *core)
     return (0);
 }
 
-void    moviments(t_core *core)
-{
-    if(core->move.up)
-        core->data.posY -= MOVE_SPEED;
-    if(core->move.down)
-        core->data.posY += MOVE_SPEED;
-    if(core->move.left)
-        core->data.posX -= MOVE_SPEED;
-    if(core->move.right)
-        core->data.posX += MOVE_SPEED;
-    if (core->move.rotation_l)
-        core->data.initAngle -= ROT_SPEED;
-    if (core->move.rotation_r)
-        core->data.initAngle += ROT_SPEED;   
-}
 
 int main_loop(t_core *core)
 {
