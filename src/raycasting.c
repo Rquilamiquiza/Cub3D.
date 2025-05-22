@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/21 19:40:53 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:33:21 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,15 @@ void draw_map(t_core *core)
 }
 
 
-void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd)
+void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd, int side)
 {
     int y = drawStart;
     int color;
 
-    color = 0xFFFFFF;
-        
+    if (side == 0)
+        color = 0xFFFFFF;
+    else
+        color = 0xFFFF00;
     while (y < drawEnd)
     {
         put_pixel(core, x, y, color);
@@ -82,7 +84,7 @@ void draw_wall(t_core *core, int x, int side)
         drawEnd = HEIGHT - 1;
 
     
-    draw_vertical_line(core, x, drawStart, drawEnd);
+    draw_vertical_line(core, x, drawStart, drawEnd, side);
 }
 
 // Calcula deltaDist para eixo X e Y
@@ -128,7 +130,7 @@ void sideDist(t_data *data)
 // Prepara os dados de cada raio antes de usar o DDA
 void requirements(t_data *data, int x)
 {
-    data->cameraX = 2.0 * x / (float)data->column_map - 1.0;
+    data->cameraX = 2.0 * x / (float)WIDTH - 1.0;
     data->raydirX = data->DirX + data->planX * data->cameraX;
     data->raydirY = data->DirY + data->planY * data->cameraX;
 
@@ -143,6 +145,8 @@ void dda(float fov, t_data *data, t_core *core)
 {
     int x = 0;
 
+    data->DirX = cos(data->initAngle * PI/180.0);
+    data->DirY = sin(data->initAngle * PI/180.0);
     data->planX = data->DirY * fov;
     data->planY = -data->DirX * fov;
     while (x < WIDTH)
@@ -177,7 +181,7 @@ void raycasting(t_core *core)
 {
     float fov;
     
-    fov = 0.0;
+    fov = 0.66;
     dda(fov, &core->data, core);
 }
 

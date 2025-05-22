@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:31:22 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/20 15:32:15 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:55:49 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,13 @@
 void	ft_getAngle(t_data *data, char c)
 {
 	if (c == 'N')
-	{
 		data->initAngle = 270.0f;
-		data->DirX = cos(270.0f * PI/180);
-		data->DirY = sin(270.0f * PI/180);
-	}
 	if (c == 'S')
-	{
 		data->initAngle = 90.0f;
-		data->DirX = cos(90.0f * PI/180);
-		data->DirY = sin(90.0f * PI/180);
-	}
 	if (c == 'W')
-	{	
 		data->initAngle = 180.0f;
-		data->DirX = cos(180.0f * PI/180);
-		data->DirY = sin(180.0f * PI/180);
-	}
 	if (c == 'E')
-	{
 		data->initAngle = 0.0f;
-		data->DirX = cos(0.0f * PI/180);
-		data->DirY = sin(0.0f * PI/180);
-	}
 }
 
 void find_player(t_data *data)

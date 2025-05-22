@@ -6,11 +6,13 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:36:05 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/07 16:45:01 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:59:27 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Cub3D.h"
+
+
 
 int close_window(t_core *core)
 {
@@ -23,22 +25,24 @@ int close_window(t_core *core)
     return (0);
 }
 
-int keyCall(int key, t_core *core)
+void clear_image(t_core *core, int color)
 {
-    if (key == 65307)
-        close_window(core);
-    if (key == 119)
-        printf("clicou em w\n");
-    if (key == 115)
-        printf("clicou em s\n");
-    if (key == 100)
-        printf("clicou em d\n");
-    if (key == 97)
-        printf("clicou em a\n");
-    if (key == 65361)
-        printf("clicou em <\n");
-    if (key == 65363)
-        printf("clicou em >\n");
-    
-    return (0);
+    int x, y;
+    for (y = 0; y < HEIGHT; y++)
+    {
+        for (x = 0; x < WIDTH; x++)
+        {
+            put_pixel(core, x, y, color);
+        }
+    }
 }
+
+void update_screen(t_core *core)
+{
+    //clear_image(core, 0xFFFFFF);
+    print_window(core);
+    raycasting(core);
+    mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
+}
+
+

@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/19 19:37:43 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:38:10 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 #define MAP_WIDTH 9
 #define MAP_HEIGHT 6
 #define PI 3.14159265
+#define MOVE_SPEED 0.05
+#define ROT_SPEED 1.5
 
 
 typedef struct 	s_data
@@ -50,8 +52,8 @@ typedef struct 	s_data
 	float	deltaDistY;
 	float	cameraX;
 	float	cameraY;
-	int		DirX;
-	int		DirY;
+	float		DirX;
+	float		DirY;
 	float   posX;
 	float 	posY;
 	float	planX;
@@ -62,11 +64,17 @@ typedef struct 	s_data
 	char		**map;
 }				t_data;
 
-typedef struct	s_player
+typedef struct s_move
 {
-	int x;
-	int y;
-}				t_player;
+	int up;
+	int down;
+	int left;
+	int	right;
+	int rotation_l;
+	int rotation_r;
+}			t_move;
+
+
 
 typedef struct s_core
 {
@@ -80,7 +88,7 @@ typedef struct s_core
 	int			sky;
 	int			floor;
 	int			color;
-	t_player	player;
+	t_move		move;
 	t_data		data;
 }               t_core;
 
