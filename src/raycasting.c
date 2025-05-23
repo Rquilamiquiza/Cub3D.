@@ -6,7 +6,7 @@
 /*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/22 17:31:45 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/23 09:09:09 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,19 @@ void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd, int sid
     int color;
 
     if (side == 0)
-        color = 0xFFFFFF;
+    {
+        if (core->data.raydirX > 0)
+            color = 0xFFFFFF;
+        else
+            color = 0x00FFFF;
+    }
     else
-        color = 0xFFFF00;
+    {
+        if (core->data.raydirY > 0)
+            color = 0xFF0000;
+        else
+            color = 0x00000FF;
+    }
     while (y < drawEnd)
     {
         put_pixel(core, x, y, color);
