@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 12:05:02 by jsoares           #+#    #+#             */
-/*   Updated: 2025/05/23 16:37:05 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/05/23 16:46:35 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../mlx/mlx.h"
 #define WIDTH 800
 #define HEIGHT 500
+#define BLOCO 100
 
 typedef struct s_img
 {
@@ -44,7 +45,7 @@ int get_pixel_color(t_img *img, int x, int y)
     color = *(unsigned int *)pixel;
     return color;
 }
-
+// FUNCAO PARA REDIMENSIONAR A TEXTURA
 int map(int old[2], int new[2], int value)
 {
     int deltaOld = old[1] - old[0];
@@ -68,7 +69,7 @@ int main(void)
     void *mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, "Justino");
 
     // Criar imagem onde vamos desenhar
-    img.img = mlx_new_image(mlx, WIDTH, HEIGHT);
+    img.img = mlx_new_image(mlx, BLOCO, BLOCO);
     img.add = mlx_get_data_addr(img.img, &img.bpp, &img.line_height, &img.endian);
 
     // Carregar imagem XPM
@@ -87,8 +88,8 @@ int main(void)
         for (x = 0; x < xpm_img.width; x++)
         {
             int color = get_pixel_color(&xpm_img, x, y);
-            zx = map((int[]){0,xpm_img.width}, (int[]){0, WIDTH}, x);
-            zy = map((int[]){0,xpm_img.height}, (int[]){0, HEIGHT}, y);
+            zx = map((int[]){0,xpm_img.width}, (int[]){0, BLOCO}, x);
+            zy = map((int[]){0,xpm_img.height}, (int[]){0, BLOCO}, y);
             my_mlx_pixel_put(&img, zx, zy, color);
         }
     }
