@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/23 09:09:09 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/23 10:08:52 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd, int sid
         if (core->data.raydirY > 0)
             color = 0xFF0000;
         else
-            color = 0x00000FF;
+            color = 0x0DFE0FF;
     }
     while (y < drawEnd)
     {
@@ -88,7 +88,6 @@ void draw_wall(t_core *core, int x, int side)
     if (lineHeight > HEIGHT) lineHeight = HEIGHT;
     drawStart = (int)((HEIGHT / 2.0) - (lineHeight / 2.0));
     drawEnd   = (int)((HEIGHT / 2.0) + (lineHeight / 2.0));
-
     draw_vertical_line(core, x, drawStart, drawEnd, side);
 }
 
