@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/26 08:06:07 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/05/26 08:08:09 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ void initVars(t_core *core)
     core->move.left = 0;
     core->move.rotation_l = 0;
     core->move.rotation_r = 0;
-
-    
 }
 
 int main(int argc, char *argv[])
