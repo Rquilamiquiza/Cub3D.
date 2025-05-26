@@ -6,51 +6,73 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:25:59 by jsoares           #+#    #+#             */
-/*   Updated: 2025/05/24 21:09:23 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:22:43 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Cub3D.h"
 
-// {{*FUNCAO PARA AJUSTAR AS IMAGENS E ELA NAO SE DESTORCER*}}
-int scalling(int old[2], int new[2], int value)
+void init_texture_pixels(t_core *core)
 {
-    int deltaOld;
-    int deltaNew;
-    int oldValue;
-    int rescaling;
+    int i;
 
-    deltaOld = old[1] - old[0];
-    deltaNew = new[1] - new[0];
-    oldValue = value - old[0];
-
-    rescaling = new[0] + ((oldValue * deltaNew) / deltaOld);
-    return (rescaling);
+    if (core->texture_pixels)
+        free_tab((void **)core->texture_pixels);
+    core->texture_pixels = ft_calloc(core->win_height + 1,
+                                     sizeof *core->texture_pixels);
+    if (!core->texture_pixels)
+        return;
+    i = 0;
+    while (i < core->win_height)
+    {
+        core->texture_pixels[i] = ft_calloc(core->win_width + 1,
+                                            sizeof *core->texture_pixels);
+        if (!core->texture_pixels[i])
+            return;
+        i++;
+    }
 }
 
-int get_pixel_color(t_img *img, int x, int y)
+static void get_texture_index(t_core *core, t_data *data)
 {
-    char *pixel;
-    int color;
-
-    pixel = img->addr + (y * img->line_height + x * (img->bpp / 8));
-    color = *(unsigned int *)pixel;
-    return (color);
+    if (data->side == 0)
+    {
+        if (data->DirX < 0)
+            core->texinfo.index = WEST;
+        else
+            core->texinfo.index = EAST;
+    }
+    else
+    {
+        if (data->DirY > 0)
+            core->texinfo.index = SOUTH;
+        else
+            core->texinfo.index = NORTH;
+    }
 }
 
-int texture_pixel(t_core *core, int x, int y, char *filename)
+void update_texture_pixels(t_core *core, t_texinfo *tex, int x)
 {
-    t_img texture_img;
-    void *xpm;
+    int y;
     int color;
 
-    xpm = mlx_xpm_file_to_image(core->mlx, filename, &texture_img.width, &texture_img.height);
-    if (!xpm)
-        return (printf("Error de textura\n")), 1;
-    texture_img.img = xpm;
-    texture_img.addr = mlx_get_data_addr(texture_img.img, &texture_img.bpp, &texture_img.line_height, &texture_img.endian);
-    (void)x;
-    (void)y;
-    color = get_pixel_color(&texture_img, 0, 0);
-    return (color);
+    get_texture_index(core, &core->data);
+    tex->x = (int)(core->data.WallDist * tex->size);
+    if ((core->data.side == 0 && core->data.DirX < 0) || (core->data.side == 1 && core->data.DirY > 0))
+        tex->x = tex->size - tex->x - 1;
+    tex->step = 1.0 * tex->size / core->data.wall_height;
+    tex->pos = (core->data.draw_start - core->win_height / 2 
+            + core->data.line_height / 2) * tex->step;
+    y = core->data.draw_start;
+    while (y < core->data.draw_end)
+    {
+        tex->y = (int)tex->pos & (tex->size - 1);
+        tex->pos += tex->step;
+        color = core->textures[tex->index][tex->size * tex->y + tex->x];
+        if (tex->index == NORTH || tex->index == EAST)
+            color = (color >> 1) & 8355711;
+        if (color > 0)
+            core->texture_pixels[y][x] = color;
+        y++;
+    }
 }

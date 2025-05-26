@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/25 00:10:17 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/05/26 13:23:06 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <string.h>
 #include "../mlx/mlx.h"
 #include "../get_next_line/get_next_line.h"
+#include "../libft/libft.h"
 
 #define RESET "\033[0m"
 #define RED "\033[31m"
@@ -31,6 +32,7 @@
 #define PI 3.14159265
 #define MOVE_SPEED 0.05
 #define ROT_SPEED 1.5
+#define TEX_SIZE 32
 
 enum e_texture_index
 {
@@ -67,7 +69,12 @@ typedef struct s_data
 	double planY;
 	double fov;
 
-	double perpWallDist;
+	int side;
+	int line_height;
+	int draw_start;
+	int draw_end;
+
+	double WallDist;
 
 	int wall_height;
 	char **map;
@@ -88,7 +95,7 @@ typedef struct s_move
 typedef struct s_img
 {
 	void *img;
-	char *addr;
+	int *addr;
 
 	int bpp;
 	int line_height;
@@ -132,7 +139,12 @@ typedef struct s_core
 	int floor;
 	int color;
 
+	int **texture_pixels;
 	int **textures;
+
+	int win_width;
+	int win_height;
+
 	t_move move;
 	t_data data;
 	t_texinfo texinfo;
@@ -150,5 +162,11 @@ int close_window(t_core *core);
 int scalling(int old[2], int new[2], int value);
 int texture_pixel(t_core *core, int x, int y, char *filename);
 void init_texture(t_core *core);
-
+void init_texinfo(t_texinfo *textures);
+void init_core(t_core *core);
+void free_tab(void **tab);
+void init_data(t_core *core);
+void update_texture_pixels(t_core *core, t_texinfo *tex, int x);
+void init_texture_pixels(t_core *core);
+void init_img_clean(t_img *img);
 #endif
