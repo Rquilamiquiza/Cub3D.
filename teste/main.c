@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 12:05:02 by jsoares           #+#    #+#             */
-/*   Updated: 2025/05/23 16:46:35 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/05/24 19:44:20 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ int main(void)
     void *mlx = mlx_init();
     void *mlx_win = mlx_new_window(mlx, WIDTH, HEIGHT, "Justino");
 
-    // Criar imagem onde vamos desenhar
+    // Criar uma nova imagem
     img.img = mlx_new_image(mlx, BLOCO, BLOCO);
+    // pegar as informacoes da imagem criada
     img.add = mlx_get_data_addr(img.img, &img.bpp, &img.line_height, &img.endian);
 
     // Carregar imagem XPM

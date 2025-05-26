@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 16:43:45 by rquilami          #+#    #+#              #
-#    Updated: 2025/05/19 19:39:36 by rquilami         ###   ########.fr        #
+#    Updated: 2025/05/24 22:50:53 by jsoares          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = cub3d
-SRC = src/main.c src/raycasting.c src/move.c src/map.c src/screen.c src/free.c
+SRC = src/main.c src/raycasting.c src/move.c src/map.c src/screen.c src/free.c \
+		src/texture.c src/init_texture.c
 OBJ = $(SRC:.c=.o)
 
 CC = cc
