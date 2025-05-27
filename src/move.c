@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:36:05 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/22 17:12:49 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/27 20:17:22 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Cub3D.h"
 
-int	isWall(float px, float py, t_core *core)
+int isWall(float px, float py, t_core *core)
 {
-	int	x;
-	int	y;
+    int x;
+    int y;
 
-	x = px;
-	y = py; 
-	if (core->data.map[y][x] == '1')
-        return(1);
+    x = px;
+    y = py;
+    if (core->data.map[y][x] == '1')
+        return (1);
     return (0);
 }
 
-void	upDown(t_core *core, float dirx, float diry)
+void upDown(t_core *core, float dirx, float diry)
 {
     if (core->move.up)
     {
@@ -48,7 +48,7 @@ void	upDown(t_core *core, float dirx, float diry)
     }
 }
 
-void	leftRight(t_core *core, float dirx, float diry)
+void leftRight(t_core *core, float dirx, float diry)
 {
     if (core->move.left)
     {
@@ -72,11 +72,11 @@ void	leftRight(t_core *core, float dirx, float diry)
     }
 }
 
-void    moviments(t_core *core)
+void moviments(t_core *core)
 {
     float dirx;
     float diry;
-    
+
     if (core->move.rotation_l)
     {
         if (core->data.initAngle > 360.0)
@@ -89,24 +89,19 @@ void    moviments(t_core *core)
             core->data.initAngle = 360.0;
         core->data.initAngle -= ROT_SPEED;
     }
-    dirx = cos(core->data.initAngle * PI/180.0); 
-    diry = sin(core->data.initAngle * PI/180.0);
+    dirx = cos(core->data.initAngle * PI / 180.0);
+    diry = sin(core->data.initAngle * PI / 180.0);
     upDown(core, dirx, diry);
-    leftRight(core, dirx, diry); 
+    leftRight(core, dirx, diry);
 }
 
 int close_window(t_core *core)
 {
     (void)core;
-    //mlx_destroy_window(core->mlx, core->win);
-    //mlx_destroy_image(core->mlx, core->img);
-    //mlx_destroy_display(core->mlx);
-    //free_mtx(core->data.map);
+    // mlx_destroy_window(core->mlx, core->win);
+    // mlx_destroy_image(core->mlx, core->img);
+    // mlx_destroy_display(core->mlx);
+    // free_mtx(core->data.map);
     exit(0);
     return (0);
 }
-
-
-
-
-

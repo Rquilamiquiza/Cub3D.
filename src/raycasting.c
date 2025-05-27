@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/26 13:47:11 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/05/27 21:04:24 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,56 +43,122 @@ void draw_map(t_core *core)
     }
 }
 
+unsigned int get_pixel_color(t_img *tex, int x, int y)
+{
+    if (x < 0 || x >= tex->width || y < 0 || y >= tex->height)
+        return (0xFF0000); // Cor de fallback (vermelho)
+
+    int pixel_offset = y * (tex->line_height / 4) + x;
+    return tex->addr[pixel_offset];
+}
+int load_texture(t_core *core, int tex_num, char *path)
+{
+    t_img *tex = &core->imgs[tex_num];
+
+    tex->img = mlx_xpm_file_to_image(core->mlx, path, &tex->width, &tex->height);
+    if (!tex->img)
+    {
+        printf("Error: Could not load texture %s\n", path);
+        return (0);
+    }
+
+    // Note que estamos convertendo o retorno para int*
+    tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bpp,
+                                         &tex->line_height, &tex->endian);
+    return (1);
+}
+
 void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd, int side)
 {
-    int y = drawStart;
+    double wallX;
+    int texX;
+    double step;
+    double texPos;
+    int texY;
     int color;
+    t_img *tex;
 
+    // Selecionar textura correta
     if (side == 0)
     {
-        if (core->data.raydirX > 0)
-        {
-            printf("Norte\n");
-            color = 0xFFFFFF;
-        }
-        else
-            color = 0x00FFFF;
+        tex = (core->data.raydirX > 0) ? &core->imgs[3] : &core->imgs[2]; // Oeste(3) ou Leste(2)
     }
     else
     {
-        if (core->data.raydirY > 0)
-            color = 0xFF0000;
-        else
-            color = 0x00000FF;
+        tex = (core->data.raydirY > 0) ? &core->imgs[1] : &core->imgs[0]; // Sul(1) ou Norte(0)
     }
-    while (y < drawEnd)
+
+    // Calcular posição exata na parede
+    if (side == 0)
     {
+        wallX = core->data.posY + core->data.perpWallDist * core->data.raydirY;
+    }
+    else
+    {
+        wallX = core->data.posX + core->data.perpWallDist * core->data.raydirX;
+    }
+    wallX -= floor(wallX);
+
+    // Coordenada X da textura
+    texX = (int)(wallX * (double)tex->width);
+
+    // Inverter textura se necessário
+    if ((side == 0 && core->data.raydirX > 0) || (side == 1 && core->data.raydirY < 0))
+    {
+        texX = tex->width - texX - 1;
+    }
+
+    // Calcular passo e posição inicial da textura
+    step = (double)tex->height / (drawEnd - drawStart);
+    texPos = (drawStart - HEIGHT / 2 + (drawEnd - drawStart) / 2) * step;
+
+    // Desenhar a linha vertical com textura
+    for (int y = drawStart; y < drawEnd; y++)
+    {
+        texY = (int)texPos;
+        if (texY >= tex->height)
+            texY = tex->height - 1; // Limitar ao tamanho da textura
+        texPos += step;
+        color = get_pixel_color(tex, texX, texY);
         put_pixel(core, x, y, color);
-        y++;
     }
 }
 
 void draw_wall(t_core *core, int x, int side)
 {
-    double WallDist;
     double lineHeight;
     int drawStart;
     int drawEnd;
 
+    // Calcular distância perpendicular (já deve estar calculado no raycasting)
     if (side == 0)
-        WallDist = (core->data.tileX - core->data.posX + (1 - core->data.stepX) / 2.0) / core->data.raydirX;
+    {
+        core->data.perpWallDist = (core->data.tileX - core->data.posX + (1 - core->data.stepX) / 2) / core->data.raydirX;
+    }
     else
-        WallDist = (core->data.tileY - core->data.posY + (1 - core->data.stepY) / 2.0) / core->data.raydirY;
+    {
+        core->data.perpWallDist = (core->data.tileY - core->data.posY + (1 - core->data.stepY) / 2) / core->data.raydirY;
+    }
 
-    lineHeight = HEIGHT / WallDist;
-    if (lineHeight > HEIGHT)
-        lineHeight = HEIGHT;
-    drawStart = (int)((HEIGHT / 2.0) - (lineHeight / 2.0));
-    drawEnd = (int)((HEIGHT / 2.0) + (lineHeight / 2.0));
+    // Calcular altura da linha
+    lineHeight = (int)(HEIGHT / core->data.perpWallDist);
+
+    // Calcular pontos de desenho
+    drawStart = -lineHeight / 2 + HEIGHT / 2;
+    if (drawStart < 0)
+        drawStart = 0;
+
+    drawEnd = lineHeight / 2 + HEIGHT / 2;
+    if (drawEnd >= HEIGHT)
+        drawEnd = HEIGHT - 1;
+
+    // Armazenar informações para uso posterior
     core->data.draw_start = drawStart;
     core->data.draw_end = drawEnd;
     core->data.line_height = lineHeight;
     core->data.side = side;
+
+    // Desenhar a parede
     draw_vertical_line(core, x, drawStart, drawEnd, side);
 }
 
@@ -176,7 +242,7 @@ void dda(double fov, t_data *data, t_core *core)
                 side = 1;
             }
             if (data->map[data->tileY][data->tileX] == '1')
-                  wall = 1;
+                wall = 1;
         }
         draw_wall(core, x, side);
         x++;

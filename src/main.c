@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/26 13:47:22 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/05/27 20:58:59 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,55 +56,17 @@ int release(int key, t_core *core)
     return (0);
 }
 
-void init_img(t_core *core, t_img *image, int width, int height)
+int load_textures(t_core *core)
 {
-    init_img_clean(image);
-    image->img = mlx_new_image(core->mlx, width, height);
-    if (image->img == NULL)
-        return;
-    image->addr = (int *)mlx_get_data_addr(image->img, &image->pixel_bits,
-                                           &image->size_line, &image->endian);
-    return;
-}
-void set_image_pixel(t_img *image, int x, int y, int color)
-{
-    int pixel;
-
-    pixel = y * (image->size_line / 4) + x;
-    image->addr[pixel] = color;
-}
-
-static void set_frame_image_pixel(t_core *core, t_img *image, int x, int y)
-{
-    if (core->texture_pixels[y][x] > 0)
-        set_image_pixel(image, x, y, core->texture_pixels[y][x]);
-    else if (y < core->win_height / 2)
-        set_image_pixel(image, x, y, core->texinfo.hex_ceiling);
-    else if (y < core->win_height - 1)
-        set_image_pixel(image, x, y, core->texinfo.hex_floor);
-}
-
-static void render_frame(t_core *core)
-{
-    t_img image;
-    int x;
-    int y;
-
-    image.img = NULL;
-    init_img(core, &image, core->win_width, core->win_height);
-    y = 0;
-    while (y < core->win_height)
+    if (!load_texture(core, 0, "images/black_bricks.xpm") ||
+        !load_texture(core, 1, "images/blue_hole.xpm") ||
+        !load_texture(core, 2, "images/sama.xpm") ||
+        !load_texture(core, 3, "images/wall.xpm"))
     {
-        x = 0;
-        while (x < core->win_width)
-        {
-            set_frame_image_pixel(core, &image, x, y);
-            x++;
-        }
-        y++;
+        printf("Error loading textures\n");
+        return (0);
     }
-    mlx_put_image_to_window(core->mlx, core->win, image.img, 0, 0);
-    mlx_destroy_image(core->mlx, image.img);
+    return (1);
 }
 
 int main_loop(t_core *core)
@@ -113,7 +75,7 @@ int main_loop(t_core *core)
     moviments(core);
     print_window(core);
     raycasting(core);
-    render_frame(core);
+    //render_frame(core);
     mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
     return (0);
 }
@@ -139,7 +101,8 @@ int main(int argc, char *argv[])
     initVars(core);
     // init_data(core);
     init_config(core);
-    init_texture(core);
+    load_textures(core);
+    //init_texture(core);
 
     mlx_hook(core->win, 17, 0, close_window, &core);
     mlx_hook(core->win, 2, 1L << 0, press, core);

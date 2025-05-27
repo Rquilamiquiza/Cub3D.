@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/26 13:23:06 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/05/27 20:52:31 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_data
 	int draw_end;
 
 	double WallDist;
+	double perpWallDist;
 
 	int wall_height;
 	char **map;
@@ -141,6 +142,7 @@ typedef struct s_core
 
 	int **texture_pixels;
 	int **textures;
+	t_img imgs[4];
 
 	int win_width;
 	int win_height;
@@ -169,4 +171,5 @@ void init_data(t_core *core);
 void update_texture_pixels(t_core *core, t_texinfo *tex, int x);
 void init_texture_pixels(t_core *core);
 void init_img_clean(t_img *img);
+int load_texture(t_core *core, int tex_num, char *path);
 #endif
