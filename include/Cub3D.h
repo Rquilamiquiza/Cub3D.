@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/27 20:52:31 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/05/27 21:17:10 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,4 +172,5 @@ void update_texture_pixels(t_core *core, t_texinfo *tex, int x);
 void init_texture_pixels(t_core *core);
 void init_img_clean(t_img *img);
 int load_texture(t_core *core, int tex_num, char *path);
+int load_textures(t_core *core);
 #endif

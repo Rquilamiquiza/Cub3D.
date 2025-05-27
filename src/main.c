@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/27 20:58:59 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/05/27 21:18:55 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,11 @@ int release(int key, t_core *core)
     return (0);
 }
 
-int load_textures(t_core *core)
-{
-    if (!load_texture(core, 0, "images/black_bricks.xpm") ||
-        !load_texture(core, 1, "images/blue_hole.xpm") ||
-        !load_texture(core, 2, "images/sama.xpm") ||
-        !load_texture(core, 3, "images/wall.xpm"))
-    {
-        printf("Error loading textures\n");
-        return (0);
-    }
-    return (1);
-}
-
 int main_loop(t_core *core)
 {
-    init_texture_pixels(core);
     moviments(core);
     print_window(core);
     raycasting(core);
-    //render_frame(core);
     mlx_put_image_to_window(core->mlx, core->win, core->img, 0, 0);
     return (0);
 }
@@ -99,10 +84,8 @@ int main(int argc, char *argv[])
 
     ft_readmap(argv[1], &core->data);
     initVars(core);
-    // init_data(core);
     init_config(core);
     load_textures(core);
-    //init_texture(core);
 
     mlx_hook(core->win, 17, 0, close_window, &core);
     mlx_hook(core->win, 2, 1L << 0, press, core);

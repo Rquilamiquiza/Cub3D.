@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/27 21:04:24 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/05/27 21:15:47 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,23 +80,15 @@ void draw_vertical_line(t_core *core, int x, int drawStart, int drawEnd, int sid
 
     // Selecionar textura correta
     if (side == 0)
-    {
         tex = (core->data.raydirX > 0) ? &core->imgs[3] : &core->imgs[2]; // Oeste(3) ou Leste(2)
-    }
     else
-    {
         tex = (core->data.raydirY > 0) ? &core->imgs[1] : &core->imgs[0]; // Sul(1) ou Norte(0)
-    }
 
     // Calcular posição exata na parede
     if (side == 0)
-    {
         wallX = core->data.posY + core->data.perpWallDist * core->data.raydirY;
-    }
     else
-    {
         wallX = core->data.posX + core->data.perpWallDist * core->data.raydirX;
-    }
     wallX -= floor(wallX);
 
     // Coordenada X da textura
@@ -132,13 +124,9 @@ void draw_wall(t_core *core, int x, int side)
 
     // Calcular distância perpendicular (já deve estar calculado no raycasting)
     if (side == 0)
-    {
         core->data.perpWallDist = (core->data.tileX - core->data.posX + (1 - core->data.stepX) / 2) / core->data.raydirX;
-    }
     else
-    {
         core->data.perpWallDist = (core->data.tileY - core->data.posY + (1 - core->data.stepY) / 2) / core->data.raydirY;
-    }
 
     // Calcular altura da linha
     lineHeight = (int)(HEIGHT / core->data.perpWallDist);
