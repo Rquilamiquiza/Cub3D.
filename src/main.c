@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
+/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/28 11:38:08 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/05/28 17:49:39 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void initVars(t_core *core)
 int main(int argc, char *argv[])
 {
     if (argc != 2)
-        return ;
+        return (error_msg_fd(MISSING_ARG, 2)), (1);
     t_core *core = calloc(1, sizeof(t_core));
     init_core(core);
 

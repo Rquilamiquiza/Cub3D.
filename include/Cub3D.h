@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
+/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/28 11:57:04 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/05/28 17:34:20 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 #define ROT_SPEED 1.5
 #define TEX_SIZE 32
 
-#define MISSING_ARG "Missing Arguments"
+#define MISSING_ARG "Missing Arguments\n"
 
 enum e_texture_index
 {
@@ -176,5 +176,5 @@ void init_img_clean(t_img *img);
 int load_texture(t_core *core, int tex_num, char *path);
 int load_textures(t_core *core);
 
-void error_msg(char *msg);
+int error_msg_fd(char *msg, int fd);
 #endif

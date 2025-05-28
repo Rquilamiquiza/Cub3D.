@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   map_validator.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
+/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:27:24 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/05/28 11:32:31 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/05/28 18:03:47 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Cub3D.h"
+
+
+
 
 
 
