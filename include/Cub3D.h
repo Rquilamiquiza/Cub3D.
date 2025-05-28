@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/27 21:17:10 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/05/28 11:57:04 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 #define MOVE_SPEED 0.05
 #define ROT_SPEED 1.5
 #define TEX_SIZE 32
+
+#define MISSING_ARG "Missing Arguments"
 
 enum e_texture_index
 {
@@ -173,4 +175,6 @@ void init_texture_pixels(t_core *core);
 void init_img_clean(t_img *img);
 int load_texture(t_core *core, int tex_num, char *path);
 int load_textures(t_core *core);
+
+void error_msg(char *msg);
 #endif

@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/27 21:18:55 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/05/28 11:38:08 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void initVars(t_core *core)
 int main(int argc, char *argv[])
 {
     if (argc != 2)
-        return -1;
+        return ;
     t_core *core = calloc(1, sizeof(t_core));
     init_core(core);
 
