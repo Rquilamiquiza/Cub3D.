@@ -6,7 +6,7 @@
 #    By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 16:43:45 by rquilami          #+#    #+#              #
-#    Updated: 2025/05/28 17:33:15 by jsoares          ###   ########.fr        #
+#    Updated: 2025/05/30 08:55:17 by jsoares          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME = cub3d
 SRC = src/main.c src/raycasting.c src/move.c src/map.c src/screen.c src/free.c \
 		src/texture.c src/init_texture.c src/init/init_core.c src/free/free_data.c \
-		src/utils/error.c
+		src/utils/error.c src/validator/map_validator.c
 OBJ = $(SRC:.c=.o)
 
 CC = cc

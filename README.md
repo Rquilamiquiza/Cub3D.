@@ -8,3 +8,7 @@ Cub3D é um projeto de renderizacao grafica, onde é desenvolvido um jogo 2D na 
 * Fazer a validacao da primeira parte e atribuicao dos valores na strutura
 * Fazer validacao da segunda parte de cores e fazer a atribuicao dos valores na estruturas
 * validar o mapa
+
+
+## VALIDAÇÃO POR FAZER
+* validar quantidade de jogadores e verificacao de carateres

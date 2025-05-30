@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/28 17:49:39 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/05/30 09:44:05 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,15 @@ void initVars(t_core *core)
     core->move.rotation_r = 0;
 }
 
+int validate_full_map(t_core *core)
+{
+    if (!validate_chater(&core->data))
+        return (0);
+    if (!validate_borders(&core->data))
+        return (0);
+    return (1);
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -83,6 +92,8 @@ int main(int argc, char *argv[])
     init_core(core);
 
     ft_readmap(argv[1], &core->data);
+    if (!validate_full_map(core))
+        return (error_msg_fd(MAP_ERROR, 2)), (1);
     initVars(core);
     init_config(core);
     load_textures(core);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:31:22 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/22 13:55:49 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/05/30 16:20:26 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Cub3D.h"
 
-void	ft_getAngle(t_data *data, char c)
+void ft_getAngle(t_data *data, char c)
 {
 	if (c == 'N')
 		data->initAngle = 270.0f;
@@ -26,38 +26,52 @@ void	ft_getAngle(t_data *data, char c)
 
 void find_player(t_data *data)
 {
-    int y = 0;
-    int x = 0;
+	int y = 0;
+	int x = 0;
 	if (data->map == NULL)
 	{
 		printf("Ponteiro Nullo\n");
 		exit(0);
 	}
-    while (y < data->lines_map)
-    {
-        x = 0;
-        while (x < data->column_map)
-        {
-            if (data->map[y][x] == 'N' || data->map[y][x] == 'E' || data->map[y][x] == 'W' || data->map[y][x] == 'S')
-            {
-                data->posX = x + 0.5f;
-                data->posY = y + 0.5f;
+	while (y < data->lines_map)
+	{
+		x = 0;
+		while (x < data->column_map)
+		{
+			if (data->map[y][x] == 'N' || data->map[y][x] == 'E' || data->map[y][x] == 'W' || data->map[y][x] == 'S')
+			{
+				data->posX = x + 0.5f;
+				data->posY = y + 0.5f;
 				ft_getAngle(data, data->map[y][x]);
-            }
-            x++;
-        }
-        y++;
-    }
+			}
+			x++;
+		}
+		y++;
+	}
+}
+int ft_isspace(char *str)
+{
+	int i =0;
+
+	while (str[i])
+	{
+		if (str[i] != 32 && str[i] != '\t' && str[i] != '\n')
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
-void	getLines_and_Column(char *file, t_data *data)
+
+void getLines_and_Column(char *file, t_data *data)
 {
-	int		i;
-	int		fd;
-	char	*tmp;
+	int i;
+	int fd;
+	char *tmp;
 
 	i = 0;
 	fd = open(file, O_RDONLY);
+
 	tmp = get_next_line(fd);
 	data->column_map = strlen(tmp) - 1;
 	while (tmp)
@@ -70,10 +84,29 @@ void	getLines_and_Column(char *file, t_data *data)
 	close(fd);
 }
 
-void	ft_readmap(char *file, t_data *data)
+void print_matriz(char **map)
 {
-	int		fd;
-	int		i;
+	int i = 0;
+	while(map[i])
+	{
+		printf("%s", map[i]);
+		i++;
+	}
+}
+
+void parsing_texture(t_data *data)
+{
+	int i = 0;
+	int cont = 0;
+	data->map_texture = ft_calloc(5,  sizeof(char *));
+	while(data->map_full[i]);
+	// dividir e passar os elementos para cada parte da textura
+}
+
+void ft_readmap(char *file, t_data *data)
+{
+	int fd;
+	int i;
 
 	fd = open(file, O_RDONLY);
 	getLines_and_Column(file, data);
@@ -83,16 +116,18 @@ void	ft_readmap(char *file, t_data *data)
 		exit(-1);
 	}
 	i = 0;
-	data->map = malloc(sizeof(char *) * (data->lines_map + 2));
-	data->map[i] = get_next_line(fd);
-	if (!data->map[i])
-		(free_mtx(data->map), (close(fd),
-				 exit(-1)));
-	while (data->map[i])
+	data->map_full = malloc(sizeof(char *) * (data->lines_map + 2));
+	data->map_full[i] = get_next_line(fd);
+
+	if (!data->map_full[i])
+		(free_mtx(data->map_full), (close(fd),
+							   exit(-1)));
+	while (data->map_full[i])
 	{
 		i++;
-		data->map[i] = get_next_line(fd);
+		data->map_full[i] = get_next_line(fd);
 	}
+	print_matriz(data->map_full);
 	close(fd);
 	find_player(data);
 }
