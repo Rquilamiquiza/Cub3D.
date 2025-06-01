@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:25:59 by jsoares           #+#    #+#             */
-/*   Updated: 2025/06/01 11:42:47 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/06/01 17:27:48 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,23 @@ int get_index_texture(char *str)
     free(word);
 }
 
+int load_texture(t_core *core, int tex_num, char *path)
+{
+    t_img *tex;
+    
+    tex = &core->imgs[tex_num];
+
+    tex->img = mlx_xpm_file_to_image(core->mlx, path, &tex->width, &tex->height);
+    if (!tex->img)
+    {
+        printf("Error: Could not load texture %s\n", path);
+        return (0);
+    }
+    tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bpp,
+                                         &tex->line_height, &tex->endian);
+    return (1);
+}
+
 int load_textures(t_core *core)
 {
     int i;
@@ -37,7 +54,6 @@ int load_textures(t_core *core)
     char *word;
 
     i = 0;
-
     while (i < 4 && core->data.map_texture[i])
     {
         index = get_index_texture(core->data.map_texture[i]);

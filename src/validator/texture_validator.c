@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 08:38:21 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/01 12:09:06 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/06/01 17:26:05 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ int file_ok(const char *filename)
     fd = open(filename, O_RDONLY);
     char buffer[1];
     if (fd < 0)
-    {
-        perror("open");
         return (0);
-    }
     if (read(fd, buffer, 1) == 0)
     {
         close(fd);

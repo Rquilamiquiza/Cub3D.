@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 09:31:50 by jsoares           #+#    #+#             */
-/*   Updated: 2025/05/26 13:20:06 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/01 13:37:31 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,24 @@ void init_data(t_core *core)
 	core->data.line_height = 0;	
 	core->data.draw_start = 0;	
 	core->data.draw_end = 0;	
+}
+
+void initVars(t_core *core)
+{
+    core->move.up = 0;
+    core->move.down = 0;
+    core->move.right = 0;
+    core->move.left = 0;
+    core->move.rotation_l = 0;
+    core->move.rotation_r = 0;
+}
+
+void init_config(t_core *core)
+{
+    core->mlx = mlx_init();
+    core->win = mlx_new_window(core->mlx, WIDTH, HEIGHT, "cub3d");
+    core->img = mlx_new_image(core->mlx, WIDTH, HEIGHT);
+    core->addr = mlx_get_data_addr(core->img, &core->bpp, &core->line_size, &core->endian);
 }
 
 

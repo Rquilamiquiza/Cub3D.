@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/01 12:28:40 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/06/01 17:22:51 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,4 +195,14 @@ int get_index_texture(char *str);
 int color_validator(t_data *data);
 int color_validator(t_data *data);
 int convert_color(char *str);
+void initVars(t_core *core);
+void init_config(t_core *core);
+int press(int key, t_core *core);
+int release(int key, t_core *core);
+int ft_isspace(char *str);
+void ft_getAngle(t_data *data, char c);
+void parsing_map(t_data *data);
+void draw_wall(t_core *core, int x, int side);
+unsigned int get_pixel_color(t_img *tex, int x, int y);
+void dda(double fov, t_data *data, t_core *core);
 #endif
