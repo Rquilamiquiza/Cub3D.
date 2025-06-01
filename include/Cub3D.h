@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/01 17:22:51 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/06/01 18:02:04 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 
 #define MISSING_ARG "Missing Arguments\n"
 #define MAP_ERROR "Map Error\n"
+#define FILE_ERROR "FILE ERROR\n"
 
 enum e_texture_index
 {
@@ -205,4 +206,6 @@ void parsing_map(t_data *data);
 void draw_wall(t_core *core, int x, int side);
 unsigned int get_pixel_color(t_img *tex, int x, int y);
 void dda(double fov, t_data *data, t_core *core);
+int has_extension(const char *filename, const char *ext);
+int file_ok(const char *filename);
 #endif

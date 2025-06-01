@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/01 13:38:46 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/06/01 18:06:43 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ int validate_full_map(t_core *core)
     return (1);
 }
 
+int file_validator(char *filename)
+{
+    if (!file_ok(filename) || !has_extension(filename, ".cub"))
+    {
+        error_msg_fd(FILE_ERROR, 2);
+        return (0);
+    }
+    return (1);
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -41,13 +51,14 @@ int main(int argc, char *argv[])
     t_core *core = calloc(1, sizeof(t_core));
     init_core(core);
 
+    if (!file_validator(argv[1]))
+        return (1);
     ft_readmap(argv[1], &core->data);
     if (!validate_full_map(core))
         return (error_msg_fd(MAP_ERROR, 2)), (1);
     initVars(core);
     init_config(core);
     load_textures(core);
-
     mlx_hook(core->win, 17, 0, close_window, &core);
     mlx_hook(core->win, 2, 1L << 0, press, core);
     mlx_hook(core->win, 3, 1L << 1, release, core);

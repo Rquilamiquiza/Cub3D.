@@ -6,12 +6,12 @@
 #    By: justinosoares <justinosoares@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 16:43:45 by rquilami          #+#    #+#              #
-#    Updated: 2025/06/01 17:22:33 by justinosoar      ###   ########.fr        #
+#    Updated: 2025/06/01 17:50:28 by justinosoar      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-NAME = cub3d
+NAME = cub3D
 SRC = src/main.c src/raycasting.c src/move.c src/map.c src/screen.c src/free/free.c \
 		src/texture.c src/init/init_core.c src/free/free_data.c \
 		src/utils/error.c src/validator/map_validator.c src/validator/texture_validator.c \
