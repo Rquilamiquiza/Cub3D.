@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/30 09:44:05 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/01 12:08:06 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,10 @@ int validate_full_map(t_core *core)
     if (!validate_chater(&core->data))
         return (0);
     if (!validate_borders(&core->data))
+        return (0);
+    if (!texture_validator(&core->data))
+        return (0);
+    if (!color_validator(&core->data))
         return (0);
     return (1);
 }

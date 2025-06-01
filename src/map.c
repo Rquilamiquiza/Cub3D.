@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:31:22 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/30 16:20:26 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/01 08:32:17 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,18 @@ void find_player(t_data *data)
 {
 	int y = 0;
 	int x = 0;
-	if (data->map == NULL)
-	{
-		printf("Ponteiro Nullo\n");
+	if (data->map_main == NULL)
 		exit(0);
-	}
 	while (y < data->lines_map)
 	{
 		x = 0;
 		while (x < data->column_map)
 		{
-			if (data->map[y][x] == 'N' || data->map[y][x] == 'E' || data->map[y][x] == 'W' || data->map[y][x] == 'S')
+			if (data->map_main[y][x] == 'N' || data->map_main[y][x] == 'E' || data->map_main[y][x] == 'W' || data->map_main[y][x] == 'S')
 			{
 				data->posX = x + 0.5f;
 				data->posY = y + 0.5f;
-				ft_getAngle(data, data->map[y][x]);
+				ft_getAngle(data, data->map_main[y][x]);
 			}
 			x++;
 		}
@@ -51,17 +48,16 @@ void find_player(t_data *data)
 }
 int ft_isspace(char *str)
 {
-	int i =0;
+	int i = 0;
 
 	while (str[i])
 	{
 		if (str[i] != 32 && str[i] != '\t' && str[i] != '\n')
-			return (0);
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
-
 
 void getLines_and_Column(char *file, t_data *data)
 {
@@ -87,20 +83,92 @@ void getLines_and_Column(char *file, t_data *data)
 void print_matriz(char **map)
 {
 	int i = 0;
-	while(map[i])
+	if (!map)
+		return;
+	while (map[i])
 	{
 		printf("%s", map[i]);
 		i++;
 	}
 }
 
+int map_texture(t_data *data, int i)
+{
+	int cont = 0;
+	data->map_texture = ft_calloc(5, sizeof(char *));
+	while (cont < LINE_TEXTURE && data->map_full[i])
+	{
+		if (ft_isspace(data->map_full[i]))
+		{
+			data->map_texture[cont] = data->map_full[i];
+			cont++;
+		}
+		i++;
+	}
+	return (i);
+}
+
+int map_color(t_data *data, int i)
+{
+	int cont = 0;
+	data->map_color = ft_calloc(3, sizeof(char *));
+	while (cont < LINE_COLOR && data->map_full[i])
+	{
+		if (ft_isspace(data->map_full[i]))
+		{
+			data->map_color[cont] = data->map_full[i];
+			cont++;
+		}
+		i++;
+	}
+	return (i);
+}
+
+int map_draw(t_data *data, int i)
+{
+	int cont = 0;
+	int is = 1;
+	int total_line;
+	int line_map = data->lines_map - i;
+	total_line = data->lines_map;
+	data->lines_map = data->lines_map - i - 1;
+	if (line_map <= 0)
+		line_map = 1;
+	data->map_main = ft_calloc(line_map + 2, sizeof(char *)); // +1 para NULL-terminador, se necessário
+	if (!data->map_main)
+		return (-1); // erro na alocação
+
+	// Pula possíveis linhas em branco
+	while (data->map_full[i])
+	{
+		if (ft_isspace(data->map_full[i]))
+		{
+			if (is)
+			{
+				data->column_map = ft_strlen(data->map_full[i]) - 1;
+				is = 0;
+				break;
+			}
+		}
+		i++;
+	}
+	while (cont < line_map && i < total_line && data->map_full[i])
+	{
+		data->map_main[cont] = data->map_full[i];
+		cont++;
+		i++;
+	}
+	return (i);
+}
+
 void parsing_texture(t_data *data)
 {
-	int i = 0;
-	int cont = 0;
-	data->map_texture = ft_calloc(5,  sizeof(char *));
-	while(data->map_full[i]);
-	// dividir e passar os elementos para cada parte da textura
+	int i;
+
+	i = 0;
+	i = map_texture(data, i);
+	i = map_color(data, i);
+	i = map_draw(data, i);
 }
 
 void ft_readmap(char *file, t_data *data)
@@ -121,13 +189,13 @@ void ft_readmap(char *file, t_data *data)
 
 	if (!data->map_full[i])
 		(free_mtx(data->map_full), (close(fd),
-							   exit(-1)));
+									exit(-1)));
 	while (data->map_full[i])
 	{
 		i++;
 		data->map_full[i] = get_next_line(fd);
 	}
-	print_matriz(data->map_full);
+	parsing_texture(data);
 	close(fd);
 	find_player(data);
 }

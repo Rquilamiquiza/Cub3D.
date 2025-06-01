@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:36:05 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/29 08:41:30 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/01 08:25:06 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int isWall(float px, float py, t_core *core)
 
     x = px;
     y = py;
-    if (core->data.map[y][x] == '1')
+    if (core->data.map_main[y][x] == '1')
         return (1);
     return (0);
 }

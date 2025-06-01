@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/30 15:59:00 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/01 12:28:40 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@
 #define LINE_TEXTURE 4
 #define LINE_COLOR 2
 #define LINE_HEADER 6
-
 
 #define MISSING_ARG "Missing Arguments\n"
 #define MAP_ERROR "Map Error\n"
@@ -87,10 +86,10 @@ typedef struct s_data
 	double perpWallDist;
 
 	int wall_height;
-	char **map;
 	char **map_full;
 	char **map_texture;
 	char **map_color;
+	char **map_main;
 } t_data;
 
 typedef struct s_move
@@ -187,6 +186,13 @@ int load_texture(t_core *core, int tex_num, char *path);
 int load_textures(t_core *core);
 int validate_chater(t_data *data);
 int validate_borders(t_data *data);
-
+void print_matriz(char **map);
 int error_msg_fd(char *msg, int fd);
+int texture_validator(t_data *data);
+char *last_word(char *str);
+char *first_word(char *str);
+int get_index_texture(char *str);
+int color_validator(t_data *data);
+int color_validator(t_data *data);
+int convert_color(char *str);
 #endif

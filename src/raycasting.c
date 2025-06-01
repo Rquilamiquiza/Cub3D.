@@ -6,7 +6,7 @@
 /*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/27 21:15:47 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/06/01 08:27:35 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void draw_map(t_core *core)
         x = 0;
         while (x < core->data.column_map)
         {
-            if (core->data.map[y][x] == '1')
+            if (core->data.map_main[y][x] == '1')
             {
                 i = 0;
                 while (i < BLOCK)
@@ -229,7 +229,7 @@ void dda(double fov, t_data *data, t_core *core)
                 data->tileY += data->stepY;
                 side = 1;
             }
-            if (data->map[data->tileY][data->tileX] == '1')
+            if (data->map_main[data->tileY][data->tileX] == '1')
                 wall = 1;
         }
         draw_wall(core, x, side);
