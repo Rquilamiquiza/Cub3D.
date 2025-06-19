@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joandre <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: jsoares <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 14:49:06 by joandre           #+#    #+#             */
-/*   Updated: 2024/06/05 14:49:10 by joandre          ###   ########.fr       */
+/*   Created: 2024/05/26 04:41:04 by jsoares           #+#    #+#             */
+/*   Updated: 2024/05/26 04:41:06 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,29 +111,3 @@ char	*get_next_line(int fd)
 	text[fd] = clean_first_line(text[fd]);
 	return (output_text);
 }
-
-/* int main()
-{
-	int fd = open("a.txt", O_RDONLY);
-	int fdb = open("b.txt", O_RDONLY);
-	int fdc = open("c.txt", O_RDONLY);
-	char *a;
-
-	 while ((a = get_next_line(fd)))
-	{
-		printf("%s", a);
-	}  
-
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fdc));
-	printf("%s", get_next_line(fdc));
-	printf("%s", get_next_line(fdc));
-	printf("%s", get_next_line(fdb));
-	printf("%s", get_next_line(fdb));
-	printf("%s", get_next_line(fdc));
-	printf("%s", get_next_line(fdc));
-	printf("%s", get_next_line(fd));
-
-	return 0; 
-}  */

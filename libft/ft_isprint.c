@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsoares <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/07 11:45:08 by rquilami          #+#    #+#             */
-/*   Updated: 2025/05/07 11:45:34 by rquilami         ###   ########.fr       */
+/*   Created: 2024/05/19 00:25:11 by jsoares           #+#    #+#             */
+/*   Updated: 2024/05/19 00:25:13 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/Cub3D.h"
+#include "libft.h"
 
-void	free_mtx(char **map)
+int	ft_isprint(int c)
 {
-	int	i;
-
-	i = 0;
-	if (!map)
-		return ;
-	while (map[i])
-		free(map[i++]);
-	free(map);
+	return (c > 31 && c < 127);
 }

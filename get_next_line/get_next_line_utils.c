@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joandre <joandre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jsoares <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 14:51:00 by joandre           #+#    #+#             */
-/*   Updated: 2025/01/16 11:16:13 by joandre          ###   ########.fr       */
+/*   Created: 2024/05/26 04:42:00 by jsoares           #+#    #+#             */
+/*   Updated: 2024/05/26 04:42:03 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	f_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
 	int	i;
 
@@ -22,7 +22,7 @@ int	f_strlen(const char *s)
 	return (i);
 }
 
-char	*f_strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
 	char	*str;
 
@@ -36,14 +36,14 @@ char	*f_strchr(const char *s, int c)
 	return (str);
 }
 
-char	*f_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*start;
 	char	*str;
 
 	if (!s1 || !s2)
 		return (NULL);
-	str = (char *)malloc((f_strlen(s1) + f_strlen(s2) + 1) * sizeof(char));
+	str = (char *)malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
 	start = str;
@@ -55,7 +55,7 @@ char	*f_strjoin(char *s1, char *s2)
 	return (start);
 }
 
-void	f_bzero(void *s, unsigned int n)
+void	ft_bzero(void *s, unsigned int n)
 {
 	unsigned char	*p;
 
@@ -64,13 +64,13 @@ void	f_bzero(void *s, unsigned int n)
 		*p++ = '\0';
 }
 
-void	*f_calloc(unsigned int count, unsigned int size)
+void	*ft_calloc(unsigned int count, unsigned int size)
 {
 	void	*pointer;
 
 	pointer = malloc(count * size);
 	if (!pointer)
 		return (NULL);
-	f_bzero(pointer, size * count);
+	ft_bzero(pointer, size * count);
 	return (pointer);
 }

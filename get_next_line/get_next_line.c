@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joandre <joandre@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/05 14:29:23 by joandre           #+#    #+#             */
-/*   Updated: 2025/01/16 15:17:02 by joandre          ###   ########.fr       */
+/*   Created: 2024/05/26 04:40:55 by jsoares           #+#    #+#             */
+/*   Updated: 2025/06/16 16:07:20 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "utilits.h"
 
 char	*concatenar_e_liberar(char *texto, char *buffer)
 {
 	char	*temp;
 
-	temp = f_strjoin(texto, buffer);
+	temp = ft_strjoin(texto, buffer);
 	free(texto);
 	return (temp);
 }
@@ -27,7 +28,7 @@ char	*ler_primeira_linha(int descritor_arquivo, char *texto)
 	int		bytes_lidos;
 
 	if (!texto)
-		texto = f_calloc(1, 1);
+		texto = ft_calloc(1, 1);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
@@ -43,7 +44,7 @@ char	*ler_primeira_linha(int descritor_arquivo, char *texto)
 		}
 		buffer[bytes_lidos] = 0;
 		texto = concatenar_e_liberar(texto, buffer);
-		if (f_strchr(texto, '\n'))
+		if (ft_strchr(texto, '\n'))
 			break ;
 	}
 	free(buffer);
@@ -60,7 +61,7 @@ char	*obter_linha(char *texto)
 		return (NULL);
 	while (texto[i] && texto[i] != '\n')
 		i++;
-	str = f_calloc(i + 2, sizeof(char));
+	str = ft_calloc(i + 2, sizeof(char));
 	i = 0;
 	while (texto[i] && texto[i] != '\n')
 	{
@@ -87,7 +88,7 @@ char	*limpar_primeira_linha(char *texto)
 		free(texto);
 		return (NULL);
 	}
-	str = f_calloc((f_strlen(texto) - i + 1), sizeof(char));
+	str = ft_calloc((ft_strlen(texto) - i + 1), sizeof(*texto));
 	if (!str)
 		return (NULL);
 	while (texto[++i])
