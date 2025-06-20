@@ -3,94 +3,83 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:36:05 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/19 13:43:08 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/20 19:22:00 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Cub3D.h"
 
+int	is_wall(float px, float py, t_core *core)
+{
+	int	x;
+	int	y;
+
+	x = (int)px;
+	y = (int)py;
+	if (x < 0 || y < 0 || x >= core->data.column_map
+		|| y >= core->data.lines_map)
+		return (1);
+	if (!core->data.map_main || !core->data.map_main[y])
+		return (1);
+	return (core->data.map_main[y][x] == '1');
+}
+
 void	up(t_core *core, float dir_x, float dir_y)
 {
-	core->move.newstep_x = core->data.pos_x + dir_x * MOVE_SPEED;
-	core->move.newstep_y = core->data.pos_y + dir_y * MOVE_SPEED;
-	if (core->move.newstep_x < 1)
-		;
-	else if (!is_wall(core->move.newstep_x, core->move.newstep_y, core,
-			SLIDE_NOT))
-	{
-		core->data.pos_x = core->move.newstep_x;
-		core->data.pos_y = core->move.newstep_y;
-	}
-	else if (!is_wall(core->move.newstep_x, core->data.pos_y, core, SLIDE_X))
-	{
-		core->data.pos_x = core->move.newstep_x;
-	}
-	else if (!is_wall(core->data.pos_x, core->move.newstep_y, core, SLIDE_Y))
-	{
-		core->data.pos_y = core->move.newstep_y;
-	}
+	float	next_x;
+	float	next_y;
+
+	next_x = core->data.pos_x + dir_x * MOVE_SPEED;
+	next_y = core->data.pos_y + dir_y * MOVE_SPEED;
+	if (!is_wall(next_x + PLAYER_RADIUS, core->data.pos_y, core)
+		&& !is_wall(next_x - PLAYER_RADIUS, core->data.pos_y, core))
+		core->data.pos_x = next_x;
+	if (!is_wall(core->data.pos_x, next_y + PLAYER_RADIUS, core)
+		&& !is_wall(core->data.pos_x, next_y - PLAYER_RADIUS, core))
+		core->data.pos_y = next_y;
 }
 
 void	down(t_core *core, float dir_x, float dir_y)
 {
-	core->move.newstep_x = core->data.pos_x - dir_x * MOVE_SPEED;
-	core->move.newstep_y = core->data.pos_y - dir_y * MOVE_SPEED;
-	if (core->move.newstep_x < 1 || core->move.newstep_y < 1)
-		;
-	else if (!is_wall(core->move.newstep_x, core->move.newstep_y, core,
-			SLIDE_NOT))
-	{
-		core->data.pos_x = core->move.newstep_x;
-		core->data.pos_y = core->move.newstep_y;
-	}
-	else if (!is_wall(core->move.newstep_x, core->data.pos_y, core, SLIDE_X))
-	{
-		core->data.pos_x = core->move.newstep_x;
-	}
-	else if (!is_wall(core->data.pos_x, core->move.newstep_y, core, SLIDE_Y))
-	{
-		core->data.pos_y = core->move.newstep_y;
-	}
-}
+	float	next_x;
+	float	next_y;
 
-void	up_down(t_core *core, float dir_x, float dir_y)
-{
-	if (core->move.up)
-	{
-		up(core, dir_x, dir_y);
-	}
-	if (core->move.down)
-	{
-		down(core, dir_x, dir_y);
-	}
+	next_x = core->data.pos_x - dir_x * MOVE_SPEED;
+	next_y = core->data.pos_y - dir_y * MOVE_SPEED;
+	if (!is_wall(next_x + PLAYER_RADIUS, core->data.pos_y, core)
+		&& !is_wall(next_x - PLAYER_RADIUS, core->data.pos_y, core))
+		core->data.pos_x = next_x;
+	if (!is_wall(core->data.pos_x, next_y + PLAYER_RADIUS, core)
+		&& !is_wall(core->data.pos_x, next_y - PLAYER_RADIUS, core))
+		core->data.pos_y = next_y;
 }
 
 void	left_right(t_core *core, float dir_x, float dir_y)
 {
 	if (core->move.left)
 	{
-		core->move.newstep_x = core->data.pos_x - dir_y * MOVE_SPEED;
-		core->move.newstep_y = core->data.pos_y + dir_x * MOVE_SPEED;
-		if (!is_wall(core->move.newstep_x - 0.25, core->move.newstep_y + 0.25,
-				core, SLIDE_NOT))
-		{
-			core->data.pos_x = core->move.newstep_x;
-			core->data.pos_y = core->move.newstep_y;
-		}
+		core->next_x = core->data.pos_x - dir_y * MOVE_SPEED;
+		core->next_y = core->data.pos_y + dir_x * MOVE_SPEED;
+		if (!is_wall(core->next_x + PLAYER_RADIUS, core->data.pos_y, core)
+			&& !is_wall(core->next_x - PLAYER_RADIUS, core->data.pos_y, core))
+			core->data.pos_x = core->next_x;
+		if (!is_wall(core->data.pos_x, core->next_y + PLAYER_RADIUS, core)
+			&& !is_wall(core->data.pos_x, core->next_y - PLAYER_RADIUS, core))
+			core->data.pos_y = core->next_y;
 	}
 	if (core->move.right)
 	{
-		core->move.newstep_x = core->data.pos_x + dir_y * MOVE_SPEED;
-		core->move.newstep_y = core->data.pos_y - dir_x * MOVE_SPEED;
-		if (!is_wall(core->move.newstep_x + 0.25, core->move.newstep_y - 0.25,
-				core, SLIDE_NOT))
-		{
-			core->data.pos_x = core->move.newstep_x;
-			core->data.pos_y = core->move.newstep_y;
-		}
+		core->next_x = core->data.pos_x + dir_y * MOVE_SPEED;
+		core->next_y = core->data.pos_y - dir_x * MOVE_SPEED;
+		if (!is_wall(core->next_x + PLAYER_RADIUS, core->data.pos_y, core)
+			&& !is_wall(core->next_x - PLAYER_RADIUS, core->data.pos_y, core))
+			core->data.pos_x = core->next_x;
+		if (!is_wall(core->data.pos_x, core->next_y + PLAYER_RADIUS, core)
+			&& !is_wall(core->data.pos_x, core->next_y - PLAYER_RADIUS, core))
+			core->data.pos_y = core->next_y;
 	}
 }
 
@@ -115,6 +104,9 @@ void	moviments(t_core *core)
 	dir_y = sin(core->data.init_angle * PI / 180.0);
 	core->data.move_dir_x = dir_x;
 	core->data.move_dir_y = dir_y;
-	up_down(core, dir_x, dir_y);
+	if (core->move.up)
+		up(core, dir_x, dir_y);
+	if (core->move.down)
+		down(core, dir_x, dir_y);
 	left_right(core, dir_x, dir_y);
 }

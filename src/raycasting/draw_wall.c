@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_wall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:53:23 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/03 16:41:53 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/20 19:38:37 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,26 @@ void	draw_texture(t_core *core, t_img *tex, int texX, int x)
 {
 	double	step;
 	double	tex_pos;
-	int		color;
+	int		line_height;
 	int		tex_y;
 	int		y;
 
-	step = (double)tex->height / (core->data.draw_end - core->data.draw_start);
-	tex_pos = (core->data.draw_start - HEIGHT / 2 + (core->data.draw_end
-				- core->data.draw_start) / 2) * step;
+	line_height = core->data.draw_end - core->data.draw_start;
+	if (line_height <= 0)
+		return ;
+	step = (double)tex->height / (double)line_height;
+	tex_pos = (core->data.draw_start - HEIGHT / 2 + line_height / 2) * step;
 	y = core->data.draw_start;
 	while (y < core->data.draw_end)
 	{
 		tex_y = (int)tex_pos;
+		if (tex_y < 0)
+			tex_y = 0;
 		if (tex_y >= tex->height)
 			tex_y = tex->height - 1;
+		tex->color = get_pixel_color(tex, texX, tex_y);
+		put_pixel(core, x, y, tex->color);
 		tex_pos += step;
-		color = get_pixel_color(tex, texX, tex_y);
-		put_pixel(core, x, y, color);
 		y++;
 	}
 }
@@ -86,9 +90,9 @@ void	draw_vertical_line(t_core *core, int x, int side)
 
 void	draw_wall(t_core *core, int x, int side)
 {
-	double	line_height;
-	int		draw_start;
-	int		draw_end;
+	int	line_height;
+	int	draw_start;
+	int	draw_end;
 
 	if (side == 0)
 		core->data.perp_wall_dist = (core->data.tile_x - core->data.pos_x + (1

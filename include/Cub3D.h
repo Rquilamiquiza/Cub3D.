@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/18 15:40:57 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/20 19:42:34 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # define RESET "\033[0m"
 # define RED "\033[31m"
 
-# define WIDTH 1200
-# define HEIGHT 900
+# define WIDTH 1024
+# define HEIGHT 768
 # define BLOCK 32
 # define MAP_WIDTH 9
 # define MAP_HEIGHT 6
@@ -36,6 +36,7 @@
 # define TEX_SIZE 32
 # define TILE_SIZE 64
 
+# define PLAYER_RADIUS 0.1f
 # define SLIDE_X 1
 # define SLIDE_Y 2
 # define SLIDE_NOT 0
@@ -132,6 +133,7 @@ typedef struct s_img
 
 	int				height;
 	int				width;
+	int				color;
 }					t_img;
 
 typedef struct s_texinfo
@@ -164,6 +166,8 @@ typedef struct s_core
 	int				sky;
 	int				floor;
 	int				color;
+	float			next_x;
+	float			next_y;
 
 	int				**texture_pixels;
 	int				**textures;
@@ -180,20 +184,14 @@ typedef struct s_core
 void				print_window(t_core *core);
 void				put_pixel(t_core *core, int x, int y, int color);
 void				raycasting(t_core *core);
-void				draw_map(t_core *core);
 void				ft_readmap(char *file, t_data *data);
 void				free_mtx(char **map);
 void				find_player(t_data *data);
 void				moviments(t_core *core);
 int					close_window(t_core *core);
-int					scalling(int old[2], int new[2], int value);
-int					texture_pixel(t_core *core, int x, int y, char *filename);
-void				init_texture(t_core *core);
 void				init_texinfo(t_texinfo *textures);
 void				init_core(t_core *core);
 void				free_tab(void **tab);
-void				init_data(t_core *core);
-void				init_img_clean(t_img *img);
 int					load_texture(t_core *core, int tex_num, char *path);
 int					load_textures(t_core *core);
 int					validate_chater(t_data *data);
@@ -219,11 +217,10 @@ unsigned int		get_pixel_color(t_img *tex, int x, int y);
 void				dda(double fov, t_data *data, t_core *core);
 int					has_extension(const char *filename, const char *ext);
 int					file_ok(const char *filename);
-void				out_program(char *message, t_data *data);
 void				free_map_aux(char **map, int len);
 void				clean_textures(t_core *core);
 void				exit_error(char *message, t_core *core);
 int					ft_strcmp(const char *s1, const char *s2);
-int					is_wall(float px, float py, t_core *core, int slide);
+int					is_wall(float px, float py, t_core *core);
 int					count_words(char *str);
 #endif

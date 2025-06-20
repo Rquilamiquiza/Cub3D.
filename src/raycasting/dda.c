@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dda.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 17:10:25 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/18 14:34:31 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/20 19:37:22 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	requirements(t_data *data, int x)
 
 int	get_side(t_data *data, int wall, int side)
 {
-	while (wall == 0)
+	while (!wall)
 	{
 		if (data->side_dist_x < data->side_dist_y)
 		{
@@ -80,10 +80,7 @@ int	get_side(t_data *data, int wall, int side)
 		if (data->tile_x < 0 || data->tile_y < 0
 			|| data->tile_x >= data->column_map
 			|| data->tile_y >= data->lines_map)
-		{
-			wall = 1;
 			break ;
-		}
 		if (data->map_main[data->tile_y][data->tile_x] == '1')
 			wall = 1;
 	}
@@ -93,15 +90,15 @@ int	get_side(t_data *data, int wall, int side)
 void	dda(double fov, t_data *data, t_core *core)
 {
 	int	x;
-	int	wall;
 	int	side;
+	int	wall;
 
 	x = 0;
 	(void)fov;
 	while (x < WIDTH)
 	{
-		wall = 0;
 		side = 0;
+		wall = 0;
 		requirements(data, x);
 		side = get_side(data, wall, side);
 		draw_wall(core, x, side);

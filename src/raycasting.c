@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 14:19:17 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/03 16:20:03 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/20 18:58:18 by rquilami         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	raycasting(t_core *core)
 {
 	double	fov;
 
-	fov = 0.66;
+	fov = 0.60;
 	core->data.dir_x = cos(core->data.init_angle * PI / 180.0);
 	core->data.dir_y = sin(core->data.init_angle * PI / 180.0);
 	core->data.plan_x = core->data.dir_y * fov;
