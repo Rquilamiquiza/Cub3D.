@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:25:59 by jsoares           #+#    #+#             */
-/*   Updated: 2025/06/19 08:45:05 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/22 08:31:57 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,11 @@ int	load_textures(t_core *core)
 		if (index < 0)
 		{
 			error_msg_fd("Erro ao carregar as texturas", 2);
-			return (-1);
+			return (0);
 		}
 		word = last_word(core->data.map_texture[i]);
 		if (!load_texture(core, index, word))
 		{
-			printf("Erro a carregar a textura");
 			free(word);
 			return (0);
 		}

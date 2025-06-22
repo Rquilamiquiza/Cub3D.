@@ -1,0 +1,8 @@
+{
+  mlx_uninit_write
+  Memcheck:Param
+  writev(vector[0])
+  fun:writev
+  ...
+  obj:*
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_readmap.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:50:30 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/16 17:50:00 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/21 23:20:33 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

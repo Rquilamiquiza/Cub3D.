@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/20 19:42:34 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/06/22 08:33:35 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,4 +223,6 @@ void				exit_error(char *message, t_core *core);
 int					ft_strcmp(const char *s1, const char *s2);
 int					is_wall(float px, float py, t_core *core);
 int					count_words(char *str);
+
+void clean_resources(t_core *core);
 #endif

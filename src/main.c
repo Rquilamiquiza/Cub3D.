@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
+/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/19 08:58:07 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/22 08:32:43 by justinosoar      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Cub3D.h"
 
-int	main_loop(t_core *core)
+int main_loop(t_core *core)
 {
 	moviments(core);
 	print_window(core);
@@ -21,7 +21,7 @@ int	main_loop(t_core *core)
 	return (0);
 }
 
-int	validate_full_map(t_core *core)
+int validate_full_map(t_core *core)
 {
 	if (!texture_validator(&core->data))
 	{
@@ -46,7 +46,7 @@ int	validate_full_map(t_core *core)
 	return (1);
 }
 
-int	file_validator(char *filename)
+int file_validator(char *filename)
 {
 	if (!file_ok(filename) || !has_extension(filename, ".cub"))
 	{
@@ -56,9 +56,9 @@ int	file_validator(char *filename)
 	return (1);
 }
 
-int	main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	t_core	*core;
+	t_core *core;
 
 	if (argc != 2)
 		return (error_msg_fd(MISSING_ARG, 2));
@@ -74,7 +74,8 @@ int	main(int argc, char *argv[])
 		exit_error("", core);
 	init_vars(core);
 	init_config(core);
-	load_textures(core);
+	if (!load_textures(core))
+		clean_resources(core);
 	mlx_hook(core->win, 17, 0, close_window, core);
 	mlx_hook(core->win, 2, 1L << 0, press, core);
 	mlx_hook(core->win, 3, 1L << 1, release, core);
