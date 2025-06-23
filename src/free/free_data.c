@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:00:42 by jsoares           #+#    #+#             */
-/*   Updated: 2025/06/23 08:32:04 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/23 08:35:07 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	clean_texture(t_core *core)
 	int	i;
 
 	i = 0;
-	while (i < 4) // Para todas as direções
+	while (i < 4)
 	{
 		if (core->imgs[i].img)
 		{
