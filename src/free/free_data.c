@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:00:42 by jsoares           #+#    #+#             */
-/*   Updated: 2025/06/23 07:37:40 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/23 08:32:04 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,35 @@ void	free_tab(void **tab)
 	}
 }
 
+void	clean_texture(t_core *core)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4) // Para todas as direções
+	{
+		if (core->imgs[i].img)
+		{
+			mlx_destroy_image(core->mlx, core->imgs[i].img);
+			core->imgs[i].img = NULL;
+		}
+		i++;
+	}
+}
+
 void	clean_resources(t_core *core)
 {
-	if (core->win)
-		mlx_destroy_window(core->mlx, core->win);
-	if (core->img)
-		mlx_destroy_image(core->mlx, core->img);
+	clean_texture(core);
 	if (core->mlx)
-		mlx_destroy_display(core->mlx);
+	{
+		if (core->win)
+			mlx_destroy_window(core->mlx, core->win);
+		if (core->img)
+			mlx_destroy_image(core->mlx, core->img);
+		if (core->mlx)
+			mlx_destroy_display(core->mlx);
+		free(core->mlx);
+	}
 	if (core->data.map_full)
 		free_mtx(core->data.map_full);
 	if (core->data.map_color)
