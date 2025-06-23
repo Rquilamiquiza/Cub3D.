@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:27:24 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/16 17:47:09 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/23 11:09:00 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ int	validate_borders(t_data *data)
 					return (0);
 			j++;
 		}
+		if (data->map_main[i][0] == '\n' || data->map_main[i][0] == '\0')
+			if (!line_between_the_map(data, i))
+				return (0);
 		i++;
 	}
 	return (1);

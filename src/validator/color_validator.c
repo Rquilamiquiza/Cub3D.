@@ -6,29 +6,11 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:44:09 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/19 09:39:53 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/23 10:30:04 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Cub3D.h"
-
-int	convert_color(char *str)
-{
-	char	*color;
-	char	**split;
-	int		r;
-	int		g;
-	int		b;
-
-	color = last_word(str);
-	split = ft_split(color, ',');
-	r = ft_atoi(split[0]);
-	g = ft_atoi(split[1]);
-	b = ft_atoi(split[2]);
-	free_mtx(split);
-	free(color);
-	return ((r << 16) | (g << 8) | b);
-}
 
 int	count_mtx(char **mtx)
 {
@@ -38,6 +20,23 @@ int	count_mtx(char **mtx)
 	while (mtx[i])
 		i++;
 	return (i);
+}
+
+int	valid_color(char *color)
+{
+	int	i;
+
+	i = 0;
+	while (color[i])
+	{
+		if (!ft_isdigit(color[i]))
+		{
+			if (color[i] != ' ' && color[i] != '\t')
+				return (0);
+		}
+		i++;
+	}
+	return (1);
 }
 
 int	color_ok(char *color)
@@ -56,7 +55,7 @@ int	color_ok(char *color)
 	while (i < 3)
 	{
 		atoi = ft_atoi(split[i]);
-		if (atoi > 255 || atoi < 0)
+		if (atoi > 255 || atoi < 0 || !valid_color(split[i]))
 		{
 			free_mtx(split);
 			return (0);

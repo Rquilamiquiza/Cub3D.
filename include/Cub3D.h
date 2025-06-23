@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/23 07:37:50 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/23 11:09:29 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,7 @@ void				exit_error(char *message, t_core *core);
 int					ft_strcmp(const char *s1, const char *s2);
 int					is_wall(float px, float py, t_core *core);
 int					count_words(char *str);
+int					line_between_the_map(t_data *data, int i);
 
 void				clean_resources(t_core *core);
 #endif

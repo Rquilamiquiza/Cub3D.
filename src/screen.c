@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:14:44 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/03 12:30:42 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/23 10:30:09 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,24 @@ void	put_pixel(t_core *core, int x, int y, int color)
 		return ;
 	pixel = core->addr + (y * core->line_size + x * (core->bpp / 8));
 	*(unsigned int *)pixel = color;
+}
+
+int	convert_color(char *str)
+{
+	char	*color;
+	char	**split;
+	int		r;
+	int		g;
+	int		b;
+
+	color = last_word(str);
+	split = ft_split(color, ',');
+	r = ft_atoi(split[0]);
+	g = ft_atoi(split[1]);
+	b = ft_atoi(split[2]);
+	free_mtx(split);
+	free(color);
+	return ((r << 16) | (g << 8) | b);
 }
 
 void	init_color(t_core *core)
