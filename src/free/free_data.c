@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
+/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 11:00:42 by jsoares           #+#    #+#             */
-/*   Updated: 2025/06/22 08:33:02 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/06/23 07:37:40 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	free_tab(void **tab)
 	}
 }
 
-void clean_resources(t_core *core)
+void	clean_resources(t_core *core)
 {
 	if (core->win)
 		mlx_destroy_window(core->mlx, core->win);

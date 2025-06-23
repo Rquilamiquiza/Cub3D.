@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
+/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:31:22 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/21 23:13:53 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/06/23 07:37:07 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Cub3D.h"
 
-void ft_get_angle(t_data *data, char c)
+void	ft_get_angle(t_data *data, char c)
 {
 	if (c == 'N')
 		data->init_angle = 90.0f;
@@ -24,13 +24,13 @@ void ft_get_angle(t_data *data, char c)
 		data->init_angle = 180.0f;
 }
 
-void print_matriz(char **map)
+void	print_matriz(char **map)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!map)
-		return;
+		return ;
 	while (map[i])
 	{
 		printf("%s", map[i]);

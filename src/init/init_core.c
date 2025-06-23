@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_core.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: justinosoares <justinosoares@student.42    +#+  +:+       +#+        */
+/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 09:31:50 by jsoares           #+#    #+#             */
-/*   Updated: 2025/06/21 23:45:15 by justinosoar      ###   ########.fr       */
+/*   Updated: 2025/06/23 07:37:21 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/Cub3D.h"
 
-void init_core(t_core *core)
+void	init_core(t_core *core)
 {
 	core->mlx = NULL;
 	core->win = NULL;
@@ -21,7 +21,7 @@ void init_core(t_core *core)
 	init_texinfo(&core->texinfo);
 }
 
-void init_texinfo(t_texinfo *textures)
+void	init_texinfo(t_texinfo *textures)
 {
 	textures->north = NULL;
 	textures->south = NULL;
@@ -38,7 +38,7 @@ void init_texinfo(t_texinfo *textures)
 	textures->y = 0;
 }
 
-void init_vars(t_core *core)
+void	init_vars(t_core *core)
 {
 	core->move.up = 0;
 	core->move.down = 0;
@@ -48,7 +48,7 @@ void init_vars(t_core *core)
 	core->move.rotation_r = 0;
 }
 
-void init_config(t_core *core)
+void	init_config(t_core *core)
 {
 	core->mlx = mlx_init();
 	if (!core->mlx)
@@ -56,5 +56,5 @@ void init_config(t_core *core)
 	core->win = mlx_new_window(core->mlx, WIDTH, HEIGHT, "cub3d");
 	core->img = mlx_new_image(core->mlx, WIDTH, HEIGHT);
 	core->addr = mlx_get_data_addr(core->img, &core->bpp, &core->line_size,
-								   &core->endian);
+			&core->endian);
 }
