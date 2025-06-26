@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:34:47 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/23 11:09:29 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/26 15:37:05 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,11 @@
 # define LINE_COLOR 2
 # define LINE_HEADER 6
 
-# define MISSING_ARG "Missing Arguments\n"
-# define MAP_ERROR "Map Error\n"
-# define MAP_ERROR_PLAYER "Map Error : Invalid chater or invalid player\n"
-# define MAP_ERROR_BORDER "Map Error : Invalid map\n"
-# define MAP_ERROR_TEXTURE "Map Error : ERROR AT TEXTURE\n"
-# define MAP_ERROR_COLOR "Map Error : ERROR AT COLOR\n"
+# define MISSING_ARG "ERROR : INVALID NUMBER OF ARGUMENTS\n"
+# define MAP_ERROR "MAP ERROR\n"
+# define MAP_ERROR_PLAYER "MAP ERROR : MAP CONFIGURATION ERROR\n"
+# define MAP_ERROR_BORDER "MAP ERROR : INVALID MAP\n"
+# define MAP_ERROR_HEADER "MAP ERROR : INVALID HEADER\n"
 # define FILE_ERROR "FILE ERROR\n"
 
 enum				e_texture_index
@@ -202,8 +201,7 @@ int					texture_validator(t_data *data);
 char				*last_word(char *str);
 char				*first_word(char *str);
 int					get_index_texture(char *str);
-int					color_validator(t_data *data);
-int					color_validator(t_data *data);
+int					color_validator(t_data *data, int i);
 int					convert_color(char *str);
 void				init_vars(t_core *core);
 void				init_config(t_core *core);
@@ -224,6 +222,7 @@ int					ft_strcmp(const char *s1, const char *s2);
 int					is_wall(float px, float py, t_core *core);
 int					count_words(char *str);
 int					line_between_the_map(t_data *data, int i);
+int					texture_dup(char **map, int size);
 
 void				clean_resources(t_core *core);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_wall.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 16:53:23 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/20 19:38:37 by rquilami         ###   ########.fr       */
+/*   Updated: 2025/06/26 13:29:58 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	draw_wall(t_core *core, int x, int side)
 	draw_start = -line_height / 2 + HEIGHT / 2;
 	draw_end = line_height / 2 + HEIGHT / 2;
 	if (draw_end >= HEIGHT)
-		draw_end = HEIGHT - 1;
+		draw_end = HEIGHT;
 	core->data.draw_start = draw_start;
 	core->data.draw_end = draw_end;
 	core->data.line_height = line_height;

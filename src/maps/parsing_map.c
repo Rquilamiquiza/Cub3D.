@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 13:55:25 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/23 10:37:42 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/26 14:50:29 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	map_texture(t_data *data, int i)
 	int	cont;
 
 	cont = 0;
-	data->map_texture = ft_calloc(5, sizeof(char *));
-	while (cont < LINE_TEXTURE && data->map_full[i])
+	data->map_texture = ft_calloc(7, sizeof(char *));
+	while (cont < LINE_HEADER && data->map_full[i])
 	{
 		if (ft_isspace(data->map_full[i]))
 		{
@@ -30,7 +30,7 @@ int	map_texture(t_data *data, int i)
 	return (i);
 }
 
-int	map_color(t_data *data, int i)
+/*int	map_color(t_data *data, int i)
 {
 	int	cont;
 
@@ -46,7 +46,7 @@ int	map_color(t_data *data, int i)
 		i++;
 	}
 	return (i);
-}
+}*/
 
 int	map_draw(t_data *data, int i)
 {
@@ -83,6 +83,7 @@ void	parsing_map(t_data *data)
 
 	i = 0;
 	i = map_texture(data, i);
-	i = map_color(data, i);
+	//i = map_color(data, i);
 	i = map_draw(data, i);
+	//print_matriz(data->map_texture);
 }

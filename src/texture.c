@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 19:25:59 by jsoares           #+#    #+#             */
-/*   Updated: 2025/06/23 08:25:59 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/26 15:02:23 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,24 @@
 int	get_index_texture(char *str)
 {
 	char	*word;
+	int		index;
 
+	index = -1;
 	word = first_word(str);
 	if (!ft_strcmp(word, "NO") && ft_strlen(word) == 2)
-	{
-		free(word);
-		return (0);
-	}
+		index = 0;
 	else if (!ft_strcmp(word, "SO") && ft_strlen(word) == 2)
-	{
-		free(word);
-		return (1);
-	}
+		index = 1;
 	else if (!ft_strcmp(word, "WE") && ft_strlen(word) == 2)
-	{
-		free(word);
-		return (2);
-	}
+		index = 2;
 	else if (!ft_strcmp(word, "EA") && ft_strlen(word) == 2)
-	{
-		free(word);
-		return (3);
-	}
+		index = 3;
+	else if (!ft_strcmp(word, "F") && ft_strlen(word) == 1)
+		index = 4;
+	else if (!ft_strcmp(word, "C") && ft_strlen(word) == 1)
+		index = 5;
 	free(word);
-	return (-1);
+	return (index);
 }
 
 int	load_texture(t_core *core, int tex_num, char *path)
@@ -50,7 +44,7 @@ int	load_texture(t_core *core, int tex_num, char *path)
 			&tex->height);
 	if (!tex->img)
 	{
-		printf("Error: Could not load texture %s\n", path);
+		error_msg_fd("Error: Could not load all textures", 2);
 		return (0);
 	}
 	tex->addr = (int *)mlx_get_data_addr(tex->img, &tex->bpp, &tex->line_height,
@@ -65,19 +59,22 @@ int	load_textures(t_core *core)
 	char	*word;
 
 	i = 0;
-	while (i < 4 && core->data.map_texture[i])
+	while (i < 6 && core->data.map_texture[i])
 	{
 		index = get_index_texture(core->data.map_texture[i]);
 		if (index < 0)
 		{
-			error_msg_fd("Erro ao carregar as texturas", 2);
+			error_msg_fd("Error : Invalid Word\n", 2);
 			return (0);
 		}
 		word = last_word(core->data.map_texture[i]);
-		if (!load_texture(core, index, word))
+		if (index < 4)
 		{
-			free(word);
-			return (0);
+			if (!load_texture(core, index, word))
+			{
+				free(word);
+				return (0);
+			}
 		}
 		i++;
 		free(word);

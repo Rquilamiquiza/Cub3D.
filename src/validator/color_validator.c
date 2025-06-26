@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 11:44:09 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/23 10:30:04 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/26 15:23:52 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,23 +80,18 @@ int	has_color(char *str)
 	return (0);
 }
 
-int	color_validator(t_data *data)
+int	color_validator(t_data *data, int i)
 {
-	int		i;
 	char	*way;
 
-	i = 0;
-	while (data->map_color[i] && i < 2)
+	way = last_word(data->map_texture[i]);
+	if (!color_ok(way) || count_words(data->map_texture[i]) != 2
+		|| !has_color(data->map_texture[i]) || texture_dup(data->map_texture,
+			2) == 0)
 	{
-		way = last_word(data->map_color[i]);
-		if (!color_ok(way) || count_words(data->map_color[i]) != 2
-			|| !has_color(data->map_color[i]))
-		{
-			free(way);
-			return (0);
-		}
-		i++;
 		free(way);
+		return (0);
 	}
+	free(way);
 	return (1);
 }

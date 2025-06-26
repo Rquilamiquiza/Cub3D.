@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rquilami <rquilami@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/28 16:43:45 by rquilami          #+#    #+#              #
-#    Updated: 2025/06/20 17:45:22 by rquilami         ###   ########.fr        #
+#    Updated: 2025/06/26 13:55:07 by jsoares          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = cub3D
 SRC = src/main.c src/raycasting.c src/move.c src/map.c src/screen.c src/free/free.c \
 		src/texture.c src/init/init_core.c src/free/free_data.c \
 		src/utils/error.c src/validator/map_validator.c src/validator/texture_validator.c \
-		src/validator/color_validator.c src/events/event_hook.c src/utils/ft_isspace.c \
+		src/validator/color_validator.c src/validator/validate_dup.c src/events/event_hook.c src/utils/ft_isspace.c \
 		src/maps/ft_readmap.c src/maps/parsing_map.c src/raycasting/draw_wall.c src/raycasting/dda.c
 OBJ = $(SRC:.c=.o)
 

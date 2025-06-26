@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 19:14:44 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/23 10:30:09 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/26 15:39:48 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,21 @@ int	convert_color(char *str)
 void	init_color(t_core *core)
 {
 	char	*word;
+	int		index;
+	int		i;
 
-	word = first_word(core->data.map_color[0]);
-	if (word[0] == 'C')
+	i = 0;
+	while (i < 6 && core->data.map_texture[i])
 	{
-		core->sky = convert_color(core->data.map_color[0]);
-		core->floor = convert_color(core->data.map_color[1]);
+		index = get_index_texture(core->data.map_texture[i]);
+		word = first_word(core->data.map_texture[i]);
+		if (index == 4)
+			core->floor = convert_color(core->data.map_texture[i]);
+		else if (index == 5)
+			core->sky = convert_color(core->data.map_texture[i]);
+		i++;
+		free(word);
 	}
-	else
-	{
-		core->sky = convert_color(core->data.map_color[1]);
-		core->floor = convert_color(core->data.map_color[0]);
-	}
-	free(word);
 }
 
 void	print_window(t_core *core)

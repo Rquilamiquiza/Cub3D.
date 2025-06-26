@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:41:46 by rquilami          #+#    #+#             */
-/*   Updated: 2025/06/23 07:36:53 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/26 15:37:37 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,7 @@ int	validate_full_map(t_core *core)
 {
 	if (!texture_validator(&core->data))
 	{
-		error_msg_fd(MAP_ERROR_TEXTURE, 2);
-		return (0);
-	}
-	if (!color_validator(&core->data))
-	{
-		error_msg_fd(MAP_ERROR_COLOR, 2);
+		error_msg_fd(MAP_ERROR_HEADER, 2);
 		return (0);
 	}
 	if (!validate_chater(&core->data))

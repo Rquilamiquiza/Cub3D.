@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 11:27:24 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/23 11:09:00 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/26 16:39:21 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,6 @@ int	border_zero(char **map, int i, int j)
 	if (!(j != 0 && is_valid(map[i][j - 1])))
 		return (0);
 	if (!map[i][j + 1] || !is_valid(map[i][j + 1]))
-		return (0);
-	if (i != 0 && j != 0)
-	{
-		if (!map[i - 1][j - 1] || !is_valid(map[i - 1][j - 1]))
-			return (0);
-		if (!map[i + 1][j - 1] || !is_valid(map[i + 1][j - 1]))
-			return (0);
-	}
-	if (!map[i - 1][j + 1] || !is_valid(map[i - 1][j + 1]))
-		return (0);
-	if (!map[i + 1][j + 1] || !is_valid(map[i + 1][j + 1]))
 		return (0);
 	return (1);
 }

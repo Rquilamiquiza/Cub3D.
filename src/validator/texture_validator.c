@@ -6,7 +6,7 @@
 /*   By: jsoares <jsoares@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 08:38:21 by justinosoar       #+#    #+#             */
-/*   Updated: 2025/06/18 15:40:27 by jsoares          ###   ########.fr       */
+/*   Updated: 2025/06/26 15:28:36 by jsoares          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ int	file_ok(const char *filename)
 	return (1);
 }
 
+
+
 int	texture_validator(t_data *data)
 {
 	char	*way;
@@ -105,23 +107,26 @@ int	texture_validator(t_data *data)
 	int		index;
 
 	i = 0;
-	while (data->map_texture[i] && i < 4)
+	while (data->map_texture[i] && i < 6)
 	{
-		way = last_word(data->map_texture[i]);
-		if (!file_ok(way) || !has_extension(way, ".xpm")
-			|| count_words(data->map_texture[i]) != 2)
-		{
-			free(way);
-			return (0);
-		}
 		index = get_index_texture(data->map_texture[i]);
 		if (index < 0)
-		{
-			free(way);
 			return (0);
+		if (index < 4)
+		{
+			way = last_word(data->map_texture[i]);
+			if (!file_ok(way) || !has_extension(way, ".xpm")
+				|| count_words(data->map_texture[i]) != 2
+				|| texture_dup(data->map_texture, 6) == 0)
+			{
+				free(way);
+				return (0);
+			}
+			free(way);
 		}
+		else if(color_validator(data, i) == 0)
+			return (0);
 		i++;
-		free(way);
 	}
 	return (1);
 }
